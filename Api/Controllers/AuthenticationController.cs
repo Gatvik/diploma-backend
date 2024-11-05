@@ -1,4 +1,5 @@
 ﻿using Api.Application.Attributes;
+using Api.Application.Features.Authentication.Commands.ChangeEmail;
 using Api.Application.Features.Authentication.Commands.ChangePassword;
 using Api.Application.Features.Authentication.Commands.ConfirmEmail;
 using Api.Application.Features.Authentication.Commands.Login;
@@ -49,9 +50,10 @@ public class AuthenticationController : ControllerBase
     }
     
     [Authorize]
-    [HttpPost("confirmEmail")]
-    public async Task<ActionResult<Unit>> ConfirmEmail(ConfirmEmailCommand command)
+    [HttpPost("changeEmail")]
+    public async Task<ActionResult<Unit>> ChangeEmail(ChangeEmailCommand command)
     {
         return Ok(await _mediator.Send(command));
     }
+    
 }

@@ -47,7 +47,7 @@ public class ValidateTokenCommandHandler : IRequestHandler<ValidateTokenCommand,
         }
         catch
         {
-            throw new BadRequestException("Invalid token.");
+            throw new BadRequestException("Invalid token");
         }
     }
 }

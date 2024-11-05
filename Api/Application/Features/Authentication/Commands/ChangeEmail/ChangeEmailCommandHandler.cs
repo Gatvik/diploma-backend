@@ -22,9 +22,9 @@ public class ChangeEmailCommandHandler : IRequestHandler<ChangeEmailCommand, Uni
         var userId = _userService.UserId;
         var user = await _userManager.FindByIdAsync(userId);
 
-        var validationResult = await new ChangeEmailCommandValidator(_userManager).ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid)
-            throw new BadRequestException("Invalid email address", validationResult);
+        // var validationResult = await new ChangeEmailCommandValidator(_userManager).ValidateAsync(request, cancellationToken);
+        // if (!validationResult.IsValid)
+        //     throw new BadRequestException("Invalid email address", validationResult);
         
         var changeUserNameResult = await _userManager.SetUserNameAsync(user, request.NewEmail);
         if (!changeUserNameResult.Succeeded)

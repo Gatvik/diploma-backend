@@ -22,7 +22,7 @@ public class RegistrationCommandValidator : AbstractValidator<RegistrationComman
             .Must(MustBeValidSexValue).WithMessage("{PropertyName} can only have \"male\" or \"female\" values.");
         
         RuleFor(p => p.Role)
-            .Must(MustBeValidRoleValue).WithMessage("{PropertyName} can only have \"male\" or \"female\" values.");
+            .Must(MustBeValidRoleValue).WithMessage("Invalid role");
     }
 
     private bool MustBeValidSexValue(string sex)

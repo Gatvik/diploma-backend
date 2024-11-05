@@ -24,24 +24,18 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
 
     public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var validator = new LoginCommandValidator();
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid)
-            throw new BadRequestException("Data for login was invalid", validationResult);
-        
         var user = await _userManager.FindByEmailAsync(request.Email);
-        var allUsers = _userManager.Users;
 
-        if (user == null)
+        if (user is null)
         {
-            throw new NotFoundException($"User with email {request.Email} was not found.");
+            throw new BadRequestException("Login or password are invalid");
         }
-
+        
         var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
-        if (result.Succeeded == false)
+        if (!result.Succeeded)
         {
-            throw new BadRequestException($"Credentials for {request.Email} aren't valid");
+            throw new BadRequestException("Login or password are invalid");
         }
 
         JwtSecurityToken jwtSecurityToken = await new JwtTokenGenerator(_userManager, _jwtSettings).GenerateTokenAsync(user);
