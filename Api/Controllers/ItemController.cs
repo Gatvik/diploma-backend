@@ -1,5 +1,6 @@
 ﻿using Api.Application.Attributes;
 using Api.Application.Features.Authentication.Commands.Login;
+using Api.Application.Features.Item.Commands.Create;
 using Api.Application.Features.Item.Commands.Update;
 using Api.Application.Features.Item.Queries.GetAll;
 using Api.Application.Features.Item.Queries.GetByName;
@@ -24,6 +25,13 @@ public class ItemController : ControllerBase
         _mediator = mediator;
     }
 
+    [HttpPost]
+    [AuthorizeEnums(Roles.Administrator, Roles.InventoryManager)]
+    public async Task<ActionResult<Unit>> Create(CreateItemCommand request)
+    {
+        return Ok(await _mediator.Send(request));
+    }
+    
     [HttpPut]
     [AuthorizeEnums(Roles.Administrator, Roles.InventoryManager)]
     public async Task<ActionResult<Unit>> Update(UpdateItemCommand request)
