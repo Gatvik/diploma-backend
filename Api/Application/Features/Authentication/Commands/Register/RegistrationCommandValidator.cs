@@ -8,21 +8,21 @@ public class RegistrationCommandValidator : AbstractValidator<RegistrationComman
     public RegistrationCommandValidator()
     {
         RuleFor(m => m.FirstName)
-            .NotEmpty().WithMessage("{PropertyName} can't be empty")
-            .MaximumLength(64).WithMessage("{PropertyName} must be fewer than {ComparisonValue} characters");
+            .NotEmpty().WithMessage("Can't be empty")
+            .MaximumLength(64).WithMessage("Must be fewer than {ComparisonValue} characters");
         
         RuleFor(m => m.LastName)
-            .NotEmpty().WithMessage("{PropertyName} can't be empty")
-            .MaximumLength(64).WithMessage("{PropertyName} must be fewer than {ComparisonValue} characters");
+            .NotEmpty().WithMessage("Can't be empty")
+            .MaximumLength(64).WithMessage("Must be fewer than {ComparisonValue} characters");
 
         RuleFor(m => m.Email)
-            .EmailAddress().WithMessage("Email is not valid");
+            .EmailAddress().WithMessage("Invalid format");
 
         RuleFor(p => p.Sex)
-            .Must(MustBeValidSexValue).WithMessage("{PropertyName} can only have \"male\" or \"female\" values.");
+            .Must(MustBeValidSexValue).WithMessage("Can only have \"male\" or \"female\" values.");
         
         RuleFor(p => p.Role)
-            .Must(MustBeValidRoleValue).WithMessage("Invalid role");
+            .Must(MustBeValidRoleValue).WithMessage("Invalid format");
     }
 
     private bool MustBeValidSexValue(string sex)

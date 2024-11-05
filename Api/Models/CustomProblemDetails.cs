@@ -8,9 +8,6 @@ public class CustomProblemDetails
     [JsonPropertyName("type")]
     public string? Type { get; set; }
     
-    [JsonPropertyName("title")]
-    public string? Title { get; set; }
-    
     [JsonPropertyName("status")]
     public int? Status { get; set; }
     

@@ -22,7 +22,7 @@ public class GetItemByNameQueryHandler : IRequestHandler<GetItemByNameQuery, Ite
         var item = await _itemRepository.GetByPredicateAsync(i => i.Name == request.ItemName);
 
         if (item is null)
-            throw new NotFoundException("Item not found");
+            throw new NotFoundException();
 
         return _mapper.Map<ItemDto>(item);
     }

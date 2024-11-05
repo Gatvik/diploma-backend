@@ -1,8 +1,9 @@
-﻿namespace Api.Application.Features.Item.Shared;
+﻿using MediatR;
 
-public class ItemDto
+namespace Api.Application.Features.Item.Commands.Create;
+
+public class CreateItemCommand : IRequest<Unit>
 {
-    public Guid Id { get; set; }
     public string Name { get; set; }
     public int Quantity { get; set; }
     public int MinimumStockQuantity { get; set; }

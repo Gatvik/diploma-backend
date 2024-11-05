@@ -1,6 +1,8 @@
-﻿namespace Api.Application.Features.Item.Shared;
+﻿using MediatR;
 
-public class ItemDto
+namespace Api.Application.Features.Item.Commands.Update;
+
+public class UpdateItemCommand : IRequest<Unit>
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

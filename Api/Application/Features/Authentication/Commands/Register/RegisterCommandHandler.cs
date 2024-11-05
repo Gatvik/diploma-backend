@@ -30,7 +30,7 @@ public class RegisterCommandHandler : IRequestHandler<RegistrationCommand, Regis
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
-            throw new BadRequestException("Invalid registration data", validationResult);
+            throw new BadRequestException(validationResult);
         
         var user = new AppUser
         {

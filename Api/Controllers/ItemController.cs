@@ -1,7 +1,10 @@
-﻿using Api.Application.Features.Authentication.Commands.Login;
+﻿using Api.Application.Attributes;
+using Api.Application.Features.Authentication.Commands.Login;
+using Api.Application.Features.Item.Commands.Update;
 using Api.Application.Features.Item.Queries.GetAll;
 using Api.Application.Features.Item.Queries.GetByName;
 using Api.Application.Features.Item.Shared;
+using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +22,13 @@ public class ItemController : ControllerBase
     public ItemController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+    [HttpPut]
+    [AuthorizeEnums(Roles.Administrator, Roles.InventoryManager)]
+    public async Task<ActionResult<Unit>> Update(UpdateItemCommand request)
+    {
+        return Ok(await _mediator.Send(request));
     }
 
     [HttpGet]

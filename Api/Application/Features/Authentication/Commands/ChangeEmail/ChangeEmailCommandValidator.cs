@@ -12,8 +12,8 @@ public class ChangeEmailCommandValidator : AbstractValidator<ChangeEmailCommand>
     {
         _userManager = userManager;
         RuleFor(c => c.NewEmail)
-            .EmailAddress().WithMessage("Invalid email address")
-            .MustAsync(IsUnique).WithMessage("Email address already taken");
+            .EmailAddress().WithMessage("Invalid format")
+            .MustAsync(IsUnique).WithMessage("Already taken");
     }
 
     private async Task<bool> IsUnique(string email, CancellationToken cts)

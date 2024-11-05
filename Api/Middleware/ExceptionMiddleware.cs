@@ -45,7 +45,6 @@ public class ExceptionMiddleware
                 statusCode = HttpStatusCode.BadRequest;
                 problem = new CustomProblemDetails
                 {
-                    Title = badRequestException.Message,
                     Status = (int)statusCode,
                     Type = nameof(BadRequestException),
                     Errors = badRequestException.ValidationErrors
@@ -59,7 +58,6 @@ public class ExceptionMiddleware
                 statusCode = HttpStatusCode.NotFound;
                 problem = new CustomProblemDetails
                 {
-                    Title = notFound.Message,
                     Status = (int)statusCode,
                     Type = nameof(NotFoundException),
                 };
@@ -72,7 +70,6 @@ public class ExceptionMiddleware
                 statusCode = HttpStatusCode.InternalServerError;
                 problem = new CustomProblemDetails
                 {
-                    Title = "An internal server error occurred",
                     Status = (int)statusCode,
                     Type = nameof(HttpStatusCode.InternalServerError),
                 };

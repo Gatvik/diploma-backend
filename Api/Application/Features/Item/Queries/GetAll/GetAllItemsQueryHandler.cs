@@ -22,7 +22,7 @@ public class GetAllItemsQueryHandler : IRequestHandler<GetAllItemsQuery, List<It
         var items = await _itemRepository.GetAllAsync();
 
         if (items.Count <= 0)
-            throw new NotFoundException("No items");
+            throw new NotFoundException();
 
         return _mapper.Map<List<ItemDto>>(items);
     }
