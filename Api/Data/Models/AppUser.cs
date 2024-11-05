@@ -10,6 +10,4 @@ public class AppUser : IdentityUser<Guid>
     public string Sex { get; set; }
     
     public ICollection<AssignmentsToUsers> AssignmentsToUsers { get; set; }
-
-    public ICollection<Schedule> Schedules { get; set; }
 }

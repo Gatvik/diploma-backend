@@ -28,7 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers" />
+      <Folder Include="Application\Features\Item\Commands\" />
       <Folder Include="Data" />
       <Folder Include="Data\Migrations\" />
       <Folder Include="Middleware" />

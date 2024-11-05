@@ -27,21 +27,9 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, Guid>
             .WithMany(u => u.AssignmentsToUsers)
             .HasForeignKey(atu => atu.UserId);
         
-        builder.Entity<Schedule>()
-            .HasOne(atu => atu.ShiftType)
-            .WithMany(a => a.Schedules)
-            .HasForeignKey(atu => atu.ShiftTypeId);
-
-        builder.Entity<Schedule>()
-            .HasOne(atu => atu.User)
-            .WithMany(u => u.Schedules)
-            .HasForeignKey(atu => atu.UserId);
-        
         base.OnModelCreating(builder);
     }
 
     public DbSet<Assignment> Assignments { get; set; }
     public DbSet<AssignmentsToUsers> AssignmentsToUsers { get; set; }
-    public DbSet<ShiftType> ShiftTypes { get; set; }
-    public DbSet<Schedule> Schedules { get; set; }
 }
