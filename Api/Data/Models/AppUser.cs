@@ -10,4 +10,5 @@ public class AppUser : IdentityUser<Guid>
     public string Sex { get; set; }
     
     public ICollection<AssignmentsToUsers> AssignmentsToUsers { get; set; }
+    public ICollection<ItemHistory> ItemHistories { get; set; }
 }

@@ -2,6 +2,7 @@
 using Api.Application.Features.Authentication.Commands.Login;
 using Api.Application.Features.Item.Commands.Create;
 using Api.Application.Features.Item.Commands.Delete;
+using Api.Application.Features.Item.Commands.Modify;
 using Api.Application.Features.Item.Commands.Update;
 using Api.Application.Features.Item.Queries.GetAll;
 using Api.Application.Features.Item.Queries.GetByName;
@@ -36,6 +37,13 @@ public class ItemController : ControllerBase
     [HttpPut]
     [AuthorizeEnums(Roles.Administrator, Roles.InventoryManager)]
     public async Task<ActionResult<Unit>> Update(UpdateItemCommand request)
+    {
+        return Ok(await _mediator.Send(request));
+    }
+    
+    [HttpPut("modify")]
+    [AuthorizeEnums(Roles.Administrator, Roles.InventoryManager, Roles.Technician, Roles.Housemaid)]
+    public async Task<ActionResult<ModifyItemCommandResponse>> Modify(ModifyItemCommand request)
     {
         return Ok(await _mediator.Send(request));
     }

@@ -3,6 +3,7 @@ using System;
 using Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241106102744_AddedRelations")]
+    partial class AddedRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,7 +165,7 @@ namespace Api.Data.Migrations
                         {
                             Id = new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "439670ca-b555-44fd-8d60-81ea41f1cd93",
+                            ConcurrencyStamp = "7797fee0-57d9-406c-9954-6bf866924642",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -170,7 +173,7 @@ namespace Api.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPcyDGeb7mie7pdsQbTWs5hI9gZocOEJvtEvVZH2cVX9A5FBsSu4LKySkk34fJxgLg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEsoa1M6WHvpzyxlTuLl8EpZDLcPWjjZud3xV+BNdhb3wCP1WbzJehpMNcgJv05ABg==",
                             PhoneNumberConfirmed = false,
                             Sex = "male",
                             TwoFactorEnabled = false,
@@ -299,7 +302,7 @@ namespace Api.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Value")
@@ -465,7 +468,8 @@ namespace Api.Data.Migrations
                     b.HasOne("Api.Data.Models.AppUser", "User")
                         .WithMany("ItemHistories")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.Navigation("Item");
 

@@ -63,6 +63,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IItemRepository), typeof(ItemRepository));
+builder.Services.AddScoped(typeof(IItemHistoryRepository), typeof(ItemHistoryRepository));
 
 #endregion
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());

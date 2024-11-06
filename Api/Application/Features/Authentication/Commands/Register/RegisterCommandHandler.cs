@@ -58,9 +58,9 @@ public class RegisterCommandHandler : IRequestHandler<RegistrationCommand, Regis
         var code = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
 
         // TODO: Enable emails
-        Console.WriteLine(code);
-        Console.WriteLine(password);
-        //await _emailService.SendConfirmationCode(request.Email, password, code);
+        // Console.WriteLine(code);
+        // Console.WriteLine(password);
+        await _emailService.SendConfirmationCode(request.Email, password, code);
         
         await _userManager.AddToRoleAsync(user, request.Role);
         

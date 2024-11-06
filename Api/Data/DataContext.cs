@@ -26,10 +26,24 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, Guid>
             .HasOne(atu => atu.User)
             .WithMany(u => u.AssignmentsToUsers)
             .HasForeignKey(atu => atu.UserId);
+
+        builder.Entity<ItemHistory>()
+            .HasOne(atu => atu.User)
+            .WithMany(u => u.ItemHistories)
+            .HasForeignKey(atu => atu.UserId)
+            .OnDelete(DeleteBehavior.SetNull);
+        
+        builder.Entity<ItemHistory>()
+            .HasOne(atu => atu.Item)
+            .WithMany(u => u.ItemHistories)
+            .HasForeignKey(atu => atu.ItemId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         base.OnModelCreating(builder);
     }
 
     public DbSet<Assignment> Assignments { get; set; }
     public DbSet<AssignmentsToUsers> AssignmentsToUsers { get; set; }
+    public DbSet<Item> Items { get; set; }
+    public DbSet<ItemHistory> ItemsHistories { get; set; }
 }

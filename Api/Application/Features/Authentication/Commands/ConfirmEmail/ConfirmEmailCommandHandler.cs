@@ -21,7 +21,7 @@ public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, U
     public async Task<Unit> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByIdAsync(_userService.UserId);
-        var result = await _userManager.VerifyTwoFactorTokenAsync(user, request.TokenProvider, request.ValidationCode);
+        var result = await _userManager.VerifyTwoFactorTokenAsync(user!, "Email", request.ValidationCode);
         if (!result) 
             throw new BadRequestException("Invalid confirmation code");
         

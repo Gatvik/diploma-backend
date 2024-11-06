@@ -14,10 +14,6 @@ public class UpdateItemCommandValidator : AbstractValidator<UpdateItemCommand>
             .NotEmpty().WithMessage("Must be provided")
             .MaximumLength(64).WithMessage("Must be shorter than {ComparisonValue}")
             .MustAsync(MustBeUnique).WithMessage("Must be unique");
-
-        RuleFor(i => i.Quantity)
-            .GreaterThanOrEqualTo(0).WithMessage("Must be greater than or equal to 0")
-            .LessThanOrEqualTo(int.MaxValue).WithMessage("Can't be greater than {ComparisonValue}");
         
         RuleFor(i => i.MinimumStockQuantity)
             .GreaterThanOrEqualTo(0).WithMessage("Must be greater than or equal to 0")

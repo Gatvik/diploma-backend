@@ -48,12 +48,13 @@ public class AuthenticationController : ControllerBase
     {
         return Ok(await _mediator.Send(command));
     }
-    
+
     [Authorize]
-    [HttpPost("changeEmail")]
-    public async Task<ActionResult<Unit>> ChangeEmail(ChangeEmailCommand command)
+    [HttpPost("confirmEmail")]
+    public async Task<ActionResult<Unit>> ConfirmEmail(ConfirmEmailCommand command)
     {
         return Ok(await _mediator.Send(command));
     }
+    
     
 }

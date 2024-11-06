@@ -3,6 +3,7 @@ using System;
 using Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241106094428_ItemHistoryAdd")]
+    partial class ItemHistoryAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,7 +165,7 @@ namespace Api.Data.Migrations
                         {
                             Id = new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "439670ca-b555-44fd-8d60-81ea41f1cd93",
+                            ConcurrencyStamp = "297105a6-bbad-4e54-b498-0525d04ae087",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -170,7 +173,7 @@ namespace Api.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPcyDGeb7mie7pdsQbTWs5hI9gZocOEJvtEvVZH2cVX9A5FBsSu4LKySkk34fJxgLg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMZG3KNhWUyTGAM9kWBBuiau6Df5XqlhUFRYR2X4C+JeXV89yT85DXcPhyftkCFOiA==",
                             PhoneNumberConfirmed = false,
                             Sex = "male",
                             TwoFactorEnabled = false,
@@ -250,7 +253,7 @@ namespace Api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.ToTable("Item");
 
                     b.HasData(
                         new
@@ -299,7 +302,7 @@ namespace Api.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Value")
@@ -311,7 +314,7 @@ namespace Api.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ItemsHistories");
+                    b.ToTable("ItemHistory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -463,9 +466,10 @@ namespace Api.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Api.Data.Models.AppUser", "User")
-                        .WithMany("ItemHistories")
+                        .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Item");
 
@@ -531,8 +535,6 @@ namespace Api.Data.Migrations
             modelBuilder.Entity("Api.Data.Models.AppUser", b =>
                 {
                     b.Navigation("AssignmentsToUsers");
-
-                    b.Navigation("ItemHistories");
                 });
 
             modelBuilder.Entity("Api.Domain.Assignment", b =>

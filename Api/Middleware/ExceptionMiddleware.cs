@@ -47,8 +47,10 @@ public class ExceptionMiddleware
                 {
                     Status = (int)statusCode,
                     Type = nameof(BadRequestException),
-                    Errors = badRequestException.ValidationErrors
                 };
+                if (badRequestException.ValidationErrors?.Count > 0)
+                    problem.Errors = badRequestException.ValidationErrors;
+                else problem.Title = badRequestException.Message;
                 break;
             /*
              * If the exception is of type NotFoundException, then the status code is 404
