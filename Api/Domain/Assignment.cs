@@ -7,7 +7,6 @@ namespace Api.Domain;
 public class Assignment : BaseEntity
 {
     public string Name { get; set; }
-    public string Description { get; set; }
     
     // A certain task can only be performed by a certain worker.
     public Guid RoleId { get; set; }

@@ -8,6 +8,7 @@ public class AssignmentsToUsers : BaseEntity
     public bool IsCompleted { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
+    public string Description { get; set; }
     
     public Guid AssignmentId { get; set; }
     public Assignment Assignment { get; set; }
