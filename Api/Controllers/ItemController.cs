@@ -1,6 +1,7 @@
 ﻿using Api.Application.Attributes;
 using Api.Application.Features.Authentication.Commands.Login;
 using Api.Application.Features.Item.Commands.Create;
+using Api.Application.Features.Item.Commands.Delete;
 using Api.Application.Features.Item.Commands.Update;
 using Api.Application.Features.Item.Queries.GetAll;
 using Api.Application.Features.Item.Queries.GetByName;
@@ -37,6 +38,13 @@ public class ItemController : ControllerBase
     public async Task<ActionResult<Unit>> Update(UpdateItemCommand request)
     {
         return Ok(await _mediator.Send(request));
+    }
+    
+    [HttpDelete]
+    [AuthorizeEnums(Roles.Administrator, Roles.InventoryManager)]
+    public async Task<ActionResult<Unit>> Delete(Guid itemId)
+    {
+        return Ok(await _mediator.Send(new DeleteItemCommand { ItemId = itemId }));
     }
 
     [HttpGet]
