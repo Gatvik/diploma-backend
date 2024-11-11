@@ -64,6 +64,8 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IItemRepository), typeof(ItemRepository));
 builder.Services.AddScoped(typeof(IItemHistoryRepository), typeof(ItemHistoryRepository));
+builder.Services.AddScoped(typeof(IAssignmentRepository), typeof(AssignmentRepository));
+builder.Services.AddScoped(typeof(IAssignmentToUserRepository), typeof(AssignmentToUserRepository));
 
 #endregion
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());

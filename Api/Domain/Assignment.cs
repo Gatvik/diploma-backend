@@ -12,5 +12,5 @@ public class Assignment : BaseEntity
     public Guid RoleId { get; set; }
     public AppRole Role { get; set; }
     
-    public ICollection<AssignmentsToUsers> AssignmentsToUsers { get; set; }
+    public ICollection<AssignmentToUser> AssignmentsToUsers { get; set; }
 }

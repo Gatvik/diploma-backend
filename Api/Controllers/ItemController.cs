@@ -28,21 +28,21 @@ public class ItemController : ControllerBase
     }
 
     [HttpPost]
-    [AuthorizeEnums(Roles.Administrator, Roles.InventoryManager)]
+    [AuthorizeEnums(Roles.InventoryManager)]
     public async Task<ActionResult<Unit>> Create(CreateItemCommand request)
     {
         return Ok(await _mediator.Send(request));
     }
     
     [HttpPut]
-    [AuthorizeEnums(Roles.Administrator, Roles.InventoryManager)]
+    [AuthorizeEnums(Roles.InventoryManager)]
     public async Task<ActionResult<Unit>> Update(UpdateItemCommand request)
     {
         return Ok(await _mediator.Send(request));
     }
     
     [HttpPut("modify")]
-    [AuthorizeEnums(Roles.Administrator, Roles.InventoryManager, Roles.Technician, Roles.Housemaid)]
+    [AuthorizeEnums(Roles.InventoryManager, Roles.Technician, Roles.Housemaid)]
     public async Task<ActionResult<ModifyItemCommandResponse>> Modify(ModifyItemCommand request)
     {
         return Ok(await _mediator.Send(request));

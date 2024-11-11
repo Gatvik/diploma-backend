@@ -17,12 +17,12 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         builder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
 
-        builder.Entity<AssignmentsToUsers>()
+        builder.Entity<AssignmentToUser>()
             .HasOne(atu => atu.Assignment)
             .WithMany(a => a.AssignmentsToUsers)
             .HasForeignKey(atu => atu.AssignmentId);
 
-        builder.Entity<AssignmentsToUsers>()
+        builder.Entity<AssignmentToUser>()
             .HasOne(atu => atu.User)
             .WithMany(u => u.AssignmentsToUsers)
             .HasForeignKey(atu => atu.UserId);
@@ -43,7 +43,7 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, Guid>
     }
 
     public DbSet<Assignment> Assignments { get; set; }
-    public DbSet<AssignmentsToUsers> AssignmentsToUsers { get; set; }
+    public DbSet<AssignmentToUser> AssignmentsToUsers { get; set; }
     public DbSet<Item> Items { get; set; }
     public DbSet<ItemHistory> ItemsHistories { get; set; }
 }

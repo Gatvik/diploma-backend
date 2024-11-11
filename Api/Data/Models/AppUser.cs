@@ -9,6 +9,6 @@ public class AppUser : IdentityUser<Guid>
     public string LastName { get; set; }
     public string Sex { get; set; }
     
-    public ICollection<AssignmentsToUsers> AssignmentsToUsers { get; set; }
+    public ICollection<AssignmentToUser> AssignmentsToUsers { get; set; }
     public ICollection<ItemHistory> ItemHistories { get; set; }
 }
