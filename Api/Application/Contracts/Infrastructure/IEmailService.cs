@@ -2,5 +2,6 @@
 
 public interface IEmailService
 {
-    Task SendConfirmationCode(string email, string password, string code);
+    Task SendEmailConfirmationCode(string email, string password, string code);
+    Task SendPasswordRecoveryCode(string email, string code);
 }

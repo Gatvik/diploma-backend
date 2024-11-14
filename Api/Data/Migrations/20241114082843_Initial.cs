@@ -57,16 +57,17 @@ namespace Api.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShiftTypes",
+                name: "Items",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    StartTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
-                    EndTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    MinimumStockQuantity = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShiftTypes", x => x.Id);
+                    table.PrimaryKey("PK_Items", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,7 +97,6 @@ namespace Api.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
                     RoleId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -196,27 +196,29 @@ namespace Api.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Schedules",
+                name: "ItemsHistories",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ShiftTypeId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Value = table.Column<int>(type: "integer", nullable: false),
+                    PerformedAction = table.Column<string>(type: "text", nullable: false),
+                    DateOfAction = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ItemId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Schedules", x => x.Id);
+                    table.PrimaryKey("PK_ItemsHistories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Schedules_AspNetUsers_UserId",
+                        name: "FK_ItemsHistories_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
-                        name: "FK_Schedules_ShiftTypes_ShiftTypeId",
-                        column: x => x.ShiftTypeId,
-                        principalTable: "ShiftTypes",
+                        name: "FK_ItemsHistories_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -229,6 +231,7 @@ namespace Api.Data.Migrations
                     IsCompleted = table.Column<bool>(type: "boolean", nullable: false),
                     StartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EndTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Details = table.Column<string>(type: "text", nullable: false),
                     AssignmentId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -264,12 +267,32 @@ namespace Api.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Sex", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"), 0, "1406b574-6602-4498-b35d-0fbc803ee914", "admin@localhost.com", true, "Admin", "Admin", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAELvGv52iVPZG+NFbYN2BCYgimuEmh+JbGMiae3AfaIe9KmangxOWA2W4UjnyM3dayw==", null, false, null, "male", false, "admin@localhost.com" });
+                values: new object[] { new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"), 0, "3375f1b4-b0fe-4ada-ac4c-9d7a80a21ee7", "admin@localhost.com", true, "Admin", "Admin", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEMVTzi5ZgxYcgrD+DkhfhfSZ+FwXP2M1oBfhFBwj1M7wh2vLhf0DRqXDF5jw08zeTQ==", null, false, null, "male", false, "admin@localhost.com" });
+
+            migrationBuilder.InsertData(
+                table: "Items",
+                columns: new[] { "Id", "MinimumStockQuantity", "Name", "Quantity" },
+                values: new object[,]
+                {
+                    { new Guid("674c73fc-2a7b-40ba-af56-d6a8a486cb3e"), 80, "Light bulb", 80 },
+                    { new Guid("75de4f70-0237-4df5-846f-6e825f946f87"), 500, "Nail", 500 },
+                    { new Guid("8da704f4-af4d-4e1a-b151-74f042572600"), 10, "Bedding set", 10 },
+                    { new Guid("b702a464-7170-4a7a-b6b7-4ecedda97792"), 30, "Soap", 30 }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { new Guid("cbc43a8e-f7bb-4445-baaf-1add431ffbbf"), new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9") });
+
+            migrationBuilder.InsertData(
+                table: "Assignments",
+                columns: new[] { "Id", "Name", "RoleId" },
+                values: new object[,]
+                {
+                    { new Guid("58302ce8-d000-4301-b24b-52cd5ded95a2"), "Replace light bulb", new Guid("a0f845d1-2680-459d-981a-d40b176c5ca8") },
+                    { new Guid("c8837679-cb17-41a3-93b0-c7d797a61a76"), "Clear room", new Guid("9beb8da7-4160-4db7-9982-05604a4e51d5") }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -324,13 +347,13 @@ namespace Api.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedules_ShiftTypeId",
-                table: "Schedules",
-                column: "ShiftTypeId");
+                name: "IX_ItemsHistories_ItemId",
+                table: "ItemsHistories",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedules_UserId",
-                table: "Schedules",
+                name: "IX_ItemsHistories_UserId",
+                table: "ItemsHistories",
                 column: "UserId");
         }
 
@@ -356,7 +379,7 @@ namespace Api.Data.Migrations
                 name: "AssignmentsToUsers");
 
             migrationBuilder.DropTable(
-                name: "Schedules");
+                name: "ItemsHistories");
 
             migrationBuilder.DropTable(
                 name: "Assignments");
@@ -365,7 +388,7 @@ namespace Api.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "ShiftTypes");
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

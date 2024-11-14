@@ -19,6 +19,7 @@ public class UserConfiguration : IEntityTypeConfiguration<AppUser>
                 UserName = "admin@localhost.com",
                 NormalizedUserName = "ADMIN@LOCALHOST.COM",
                 PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
                 EmailConfirmed = true,
                 FirstName = "Admin",
                 LastName = "Admin",

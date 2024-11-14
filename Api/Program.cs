@@ -32,8 +32,10 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.EnableSensitiveDataLogging();
 });
 
-builder.Services.AddIdentity<AppUser, AppRole>()
-    .AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<AppUser, AppRole>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+}).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
 
 
 builder.Services.AddAuthentication(options =>
@@ -113,6 +115,12 @@ builder.Services.AddSwaggerGen(options =>
             new List<string>()
         }
     });
+    
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Hotel Management System",
+        Version = "v1"
+    });
 });
 
 var app = builder.Build();
@@ -120,10 +128,11 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
+app.UseSwagger();
+app.UseSwaggerUI();
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    
     // Show more detailed errors in development
     IdentityModelEventSource.ShowPII = true; 
 }

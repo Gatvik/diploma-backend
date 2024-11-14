@@ -19,8 +19,50 @@ public class EmailService : IEmailService
         _logger = logger;
         _emailSettings = emailSettings.Value;
     }
+
+    public async Task SendPasswordRecoveryCode(string email, string code)
+    {
+        var client = new MailjetClient(_emailSettings.ApiKey, _emailSettings.ApiSecret);
+
+        var request = new MailjetRequest
+            {
+                Resource = Send.Resource
+            }
+            .Property(Send.FromEmail, _emailSettings.FromEmail)
+            .Property(Send.FromName, _emailSettings.FromName)
+            .Property(Send.Subject, "Your password recovery code")
+            .Property(Send.HtmlPart, $"""
+                                      <center>
+                                      <h1>
+                                      You have been requested reset of your password on the Hotel Management System service.
+                                      </h1>
+                                      <h3>
+                                      Your password recovery code: <span style="font-size:10px;font-style:italic">{code}</span><br/>
+                                      If you didn't request it, just ignore this email.
+                                      </h3>
+                                      </center>
+                                      """
+                )
+            .Property(Send.Recipients, new JArray {
+                new JObject {
+                    { "Email", email }
+                }
+            });
+
+        MailjetResponse response = await client.PostAsync(request);
+        
+        if (response.IsSuccessStatusCode)
+        {
+            Console.WriteLine($"Email sent to {email} with subject");
+        }
+        else
+        {
+            Console.WriteLine($"Failed to send email. Status: {response.StatusCode}, ErrorInfo: {response.GetErrorMessage()}");
+            Console.WriteLine($"Response content: {response.Content}");
+        }
+    }
     
-    public async Task SendConfirmationCode(string email, string password, string code)
+    public async Task SendEmailConfirmationCode(string email, string password, string code)
     {
         var client = new MailjetClient(_emailSettings.ApiKey, _emailSettings.ApiSecret);
 
@@ -31,7 +73,18 @@ public class EmailService : IEmailService
             .Property(Send.FromEmail, _emailSettings.FromEmail)
             .Property(Send.FromName, _emailSettings.FromName)
             .Property(Send.Subject, "Your confirmation code")
-            .Property(Send.HtmlPart, $"<center><h1>You have been registered on the Hotel Management System service.</h1><h3>Authorize with your credentials on <HERE WILL BE LINK ON WEBSITE> and enter the code<br/>Your login: {email}<br/>Your password: {password}<br/>Your code is: {code}<br/>Don't tell credentials anyone!</h3></center>")
+            .Property(Send.HtmlPart, $"""
+                                      <center>
+                                      <h1>
+                                      You have been registered on the Hotel Management System service.
+                                      </h1>
+                                      <h3>Authorize with your credentials on <HERE WILL BE LINK ON WEBSITE> and enter the code<br/>Your login: {email}<br/>
+                                      Your password: {password}<br/>Your code is: {code}<br/>
+                                      Don't tell credentials anyone!
+                                      </h3>
+                                      </center>
+                                      """
+                )
             .Property(Send.Recipients, new JArray {
                 new JObject {
                     { "Email", email }

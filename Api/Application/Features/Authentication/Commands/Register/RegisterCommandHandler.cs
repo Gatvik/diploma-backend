@@ -60,7 +60,7 @@ public class RegisterCommandHandler : IRequestHandler<RegistrationCommand, Regis
         // TODO: Enable emails
         // Console.WriteLine(code);
         // Console.WriteLine(password);
-        await _emailService.SendConfirmationCode(request.Email, password, code);
+        await _emailService.SendEmailConfirmationCode(request.Email, password, code);
         
         await _userManager.AddToRoleAsync(user, request.Role);
         

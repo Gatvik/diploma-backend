@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241106094428_ItemHistoryAdd")]
-    partial class ItemHistoryAdd
+    [Migration("20241114082843_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,7 +165,7 @@ namespace Api.Data.Migrations
                         {
                             Id = new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "297105a6-bbad-4e54-b498-0525d04ae087",
+                            ConcurrencyStamp = "3375f1b4-b0fe-4ada-ac4c-9d7a80a21ee7",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -173,7 +173,7 @@ namespace Api.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMZG3KNhWUyTGAM9kWBBuiau6Df5XqlhUFRYR2X4C+JeXV89yT85DXcPhyftkCFOiA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMVTzi5ZgxYcgrD+DkhfhfSZ+FwXP2M1oBfhFBwj1M7wh2vLhf0DRqXDF5jw08zeTQ==",
                             PhoneNumberConfirmed = false,
                             Sex = "male",
                             TwoFactorEnabled = false,
@@ -187,10 +187,6 @@ namespace Api.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -203,9 +199,23 @@ namespace Api.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Assignments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c8837679-cb17-41a3-93b0-c7d797a61a76"),
+                            Name = "Clear room",
+                            RoleId = new Guid("9beb8da7-4160-4db7-9982-05604a4e51d5")
+                        },
+                        new
+                        {
+                            Id = new Guid("58302ce8-d000-4301-b24b-52cd5ded95a2"),
+                            Name = "Replace light bulb",
+                            RoleId = new Guid("a0f845d1-2680-459d-981a-d40b176c5ca8")
+                        });
                 });
 
-            modelBuilder.Entity("Api.Domain.AssignmentsToUsers", b =>
+            modelBuilder.Entity("Api.Domain.AssignmentToUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -213,6 +223,10 @@ namespace Api.Data.Migrations
 
                     b.Property<Guid>("AssignmentId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp with time zone");
@@ -253,7 +267,7 @@ namespace Api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Item");
+                    b.ToTable("Items");
 
                     b.HasData(
                         new
@@ -302,7 +316,7 @@ namespace Api.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Value")
@@ -314,7 +328,7 @@ namespace Api.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ItemHistory");
+                    b.ToTable("ItemsHistories");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -438,7 +452,7 @@ namespace Api.Data.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Api.Domain.AssignmentsToUsers", b =>
+            modelBuilder.Entity("Api.Domain.AssignmentToUser", b =>
                 {
                     b.HasOne("Api.Domain.Assignment", "Assignment")
                         .WithMany("AssignmentsToUsers")
@@ -466,10 +480,9 @@ namespace Api.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Api.Data.Models.AppUser", "User")
-                        .WithMany()
+                        .WithMany("ItemHistories")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Item");
 
@@ -535,6 +548,8 @@ namespace Api.Data.Migrations
             modelBuilder.Entity("Api.Data.Models.AppUser", b =>
                 {
                     b.Navigation("AssignmentsToUsers");
+
+                    b.Navigation("ItemHistories");
                 });
 
             modelBuilder.Entity("Api.Domain.Assignment", b =>

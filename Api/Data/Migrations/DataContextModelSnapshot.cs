@@ -162,7 +162,7 @@ namespace Api.Data.Migrations
                         {
                             Id = new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ac0833d5-6331-4b2c-ac6c-7b711c9686f0",
+                            ConcurrencyStamp = "3375f1b4-b0fe-4ada-ac4c-9d7a80a21ee7",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -170,7 +170,7 @@ namespace Api.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECPsRsDnl+6cqyz9MITqTD02oRgIzahy3usPxuYh0pfaCWGlv71oKCSoUgzta5wICg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMVTzi5ZgxYcgrD+DkhfhfSZ+FwXP2M1oBfhFBwj1M7wh2vLhf0DRqXDF5jw08zeTQ==",
                             PhoneNumberConfirmed = false,
                             Sex = "male",
                             TwoFactorEnabled = false,
@@ -212,7 +212,7 @@ namespace Api.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Api.Domain.AssignmentsToUsers", b =>
+            modelBuilder.Entity("Api.Domain.AssignmentToUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -449,7 +449,7 @@ namespace Api.Data.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Api.Domain.AssignmentsToUsers", b =>
+            modelBuilder.Entity("Api.Domain.AssignmentToUser", b =>
                 {
                     b.HasOne("Api.Domain.Assignment", "Assignment")
                         .WithMany("AssignmentsToUsers")

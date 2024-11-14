@@ -2,7 +2,9 @@
 using Api.Application.Features.Authentication.Commands.ChangeEmail;
 using Api.Application.Features.Authentication.Commands.ChangePassword;
 using Api.Application.Features.Authentication.Commands.ConfirmEmail;
+using Api.Application.Features.Authentication.Commands.ConfirmPasswordRecovery;
 using Api.Application.Features.Authentication.Commands.Login;
+using Api.Application.Features.Authentication.Commands.RecoverPassword;
 using Api.Application.Features.Authentication.Commands.Register;
 using Api.Application.Features.Authentication.Commands.ValidateToken;
 using Api.Data.Models;
@@ -55,6 +57,16 @@ public class AuthenticationController : ControllerBase
     {
         return Ok(await _mediator.Send(command));
     }
+
+    [HttpPut("recoverPassword")]
+    public async Task<ActionResult<Unit>> RecoverPassword(RecoverPasswordCommand command)
+    {
+        return Ok(await _mediator.Send(command));
+    }
     
-    
+    [HttpPut("confirmPasswordRecovery")]
+    public async Task<ActionResult<Unit>> ConfirmPasswordRecover(ConfirmPasswordRecoveryCommand command)
+    {
+        return Ok(await _mediator.Send(command));
+    }
 }

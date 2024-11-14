@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/v1/assignments")]
-public class AssignmentsController : ControllerBase
+[Route("api/v1/assignmentsToUsers")]
+public class AssignmentsToUsersController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public AssignmentsController(IMediator mediator)
+    public AssignmentsToUsersController(IMediator mediator)
     {
         _mediator = mediator;
     }
