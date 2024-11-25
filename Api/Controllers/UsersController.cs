@@ -2,6 +2,7 @@
 using Api.Application.Features.User.Commands.ConfirmEmail;
 using Api.Application.Features.User.Commands.ConfirmPasswordRecovery;
 using Api.Application.Features.User.Commands.RecoverPassword;
+using Api.Application.Features.User.Queries.GetSelf;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +60,6 @@ public class UsersController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetSelf()
     {
-        throw new NotImplementedException();
+        return Ok(await _mediator.Send(new GetSelfQuery()));
     }
 }
