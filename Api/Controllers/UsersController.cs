@@ -3,6 +3,7 @@ using Api.Application.Features.User.Commands.ChangePassword;
 using Api.Application.Features.User.Commands.ConfirmEmail;
 using Api.Application.Features.User.Commands.ConfirmPasswordRecovery;
 using Api.Application.Features.User.Commands.RecoverPassword;
+using Api.Application.Features.User.Queries.GetAll;
 using Api.Application.Features.User.Queries.GetById;
 using Api.Application.Features.User.Queries.GetSelf;
 using Api.Data.Models;
@@ -75,5 +76,15 @@ public class UsersController : ControllerBase
     public async Task<ActionResult> GetById([FromRoute] Guid userId)
     {
         return Ok(await _mediator.Send(new GetUserByIdQuery {UserId = userId}));
+    }
+    
+    /// <remarks>
+    /// <para>Allowed roles: Manager, Administrator, InventoryManager</para>
+    /// </remarks>
+    [AuthorizeEnums(Roles.Manager, Roles.Administrator, Roles.InventoryManager)]
+    [HttpGet("all")]
+    public async Task<ActionResult> GetAll()
+    {
+        return Ok(await _mediator.Send(new GetAllUsersQuery()));
     }
 }
