@@ -31,6 +31,9 @@ public class AuthenticationController : ControllerBase
         return Ok(await _mediator.Send(request));
     }
     
+    /// <remarks>
+    /// Allowed roles: Administrator
+    /// </remarks>
     [AuthorizeEnums(Roles.Administrator)]
     [HttpPost("register")]
     public async Task<ActionResult<RegistrationResponse>> Register(RegistrationCommand command)
@@ -44,13 +47,19 @@ public class AuthenticationController : ControllerBase
         return Ok(await _mediator.Send(command));
     }
     
+    /// <remarks>
+    /// Allowed roles: any (except non-authorized)
+    /// </remarks>
     [Authorize]
     [HttpPost("changePassword")]
     public async Task<ActionResult<Unit>> ChangePassword(ChangePasswordCommand command)
     {
         return Ok(await _mediator.Send(command));
     }
-
+    
+    /// <remarks>
+    /// Allowed roles: any (except non-authorized)
+    /// </remarks>
     [Authorize]
     [HttpPost("confirmEmail")]
     public async Task<ActionResult<Unit>> ConfirmEmail(ConfirmEmailCommand command)

@@ -1,4 +1,5 @@
-﻿using Api.Application.Attributes;
+﻿using System.Net;
+using Api.Application.Attributes;
 using Api.Application.Features.Authentication.Commands.Login;
 using Api.Application.Features.Item.Commands.Create;
 using Api.Application.Features.Item.Commands.Delete;
@@ -26,7 +27,10 @@ public class ItemController : ControllerBase
     {
         _mediator = mediator;
     }
-
+    
+    /// <remarks>
+    /// Allowed roles: InventoryManager
+    /// </remarks>
     [HttpPost]
     [AuthorizeEnums(Roles.InventoryManager)]
     public async Task<ActionResult<Unit>> Create(CreateItemCommand request)
@@ -34,6 +38,10 @@ public class ItemController : ControllerBase
         return Ok(await _mediator.Send(request));
     }
     
+    /// <remarks>
+    /// <para>Allowed roles: InventoryManager</para>
+    /// <para>Updates whole entity</para>
+    /// </remarks>
     [HttpPut]
     [AuthorizeEnums(Roles.InventoryManager)]
     public async Task<ActionResult<Unit>> Update(UpdateItemCommand request)
@@ -41,6 +49,12 @@ public class ItemController : ControllerBase
         return Ok(await _mediator.Send(request));
     }
     
+    /// <remarks>
+    /// <para>Allowed roles: InventoryManager, Technician, Housemaid</para>
+    /// <para>Only manipulates with the amount of items</para>
+    /// <para>If "Amount" is positive, then this number will be added to the existing item.</para>
+    /// <para>If "Amount" is negative, then this number will be subtracted from the item.</para>
+    /// </remarks>
     [HttpPut("modify")]
     [AuthorizeEnums(Roles.InventoryManager, Roles.Technician, Roles.Housemaid)]
     public async Task<ActionResult<ModifyItemCommandResponse>> Modify(ModifyItemCommand request)
@@ -48,13 +62,19 @@ public class ItemController : ControllerBase
         return Ok(await _mediator.Send(request));
     }
     
+    /// <remarks>
+    /// Allowed roles: InventoryManager
+    /// </remarks>
     [HttpDelete]
-    [AuthorizeEnums(Roles.Administrator, Roles.InventoryManager)]
+    [AuthorizeEnums(Roles.Administrator)]
     public async Task<ActionResult<Unit>> Delete(Guid itemId)
     {
         return Ok(await _mediator.Send(new DeleteItemCommand { ItemId = itemId }));
     }
-
+    
+    /// <remarks>
+    /// Allowed roles: any (except non-authorized)
+    /// </remarks>
     [HttpGet]
     public async Task<ActionResult<List<ItemDto>>> Get([FromQuery] string? name)
     {
