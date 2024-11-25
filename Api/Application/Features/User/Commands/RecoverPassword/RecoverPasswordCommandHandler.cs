@@ -3,7 +3,7 @@ using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Api.Application.Features.Authentication.Commands.RecoverPassword;
+namespace Api.Application.Features.User.Commands.RecoverPassword;
 
 public class RecoverPasswordCommandHandler : IRequestHandler<RecoverPasswordCommand, Unit>
 {

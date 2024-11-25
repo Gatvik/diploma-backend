@@ -1,7 +1,7 @@
-﻿using Api.Application.Features.Authentication.Commands.ChangePassword;
-using Api.Application.Features.Authentication.Commands.ConfirmEmail;
-using Api.Application.Features.Authentication.Commands.ConfirmPasswordRecovery;
-using Api.Application.Features.Authentication.Commands.RecoverPassword;
+﻿using Api.Application.Features.User.Commands.ChangePassword;
+using Api.Application.Features.User.Commands.ConfirmEmail;
+using Api.Application.Features.User.Commands.ConfirmPasswordRecovery;
+using Api.Application.Features.User.Commands.RecoverPassword;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

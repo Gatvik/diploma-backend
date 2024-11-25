@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Api.Application.Features.Authentication.Commands.ConfirmEmail;
+namespace Api.Application.Features.User.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommand : IRequest<Unit>
 {

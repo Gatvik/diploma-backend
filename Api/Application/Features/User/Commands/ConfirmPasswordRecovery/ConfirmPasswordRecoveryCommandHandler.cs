@@ -4,7 +4,7 @@ using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Api.Application.Features.Authentication.Commands.ConfirmPasswordRecovery;
+namespace Api.Application.Features.User.Commands.ConfirmPasswordRecovery;
 
 public class ConfirmPasswordRecoveryCommandHandler : IRequestHandler<ConfirmPasswordRecoveryCommand, Unit>
 {

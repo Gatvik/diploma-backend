@@ -1,11 +1,10 @@
 ﻿using Api.Application.Contracts.Identity;
 using Api.Application.Exceptions;
-using Api.Application.Features.Authentication.Commands.Login;
 using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Api.Application.Features.Authentication.Commands.ConfirmEmail;
+namespace Api.Application.Features.User.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, Unit>
 {

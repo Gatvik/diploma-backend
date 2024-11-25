@@ -38,6 +38,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Application\Features\User\Commands\" />
       <Folder Include="Data" />
       <Folder Include="Data\Migrations\" />
       <Folder Include="Middleware" />

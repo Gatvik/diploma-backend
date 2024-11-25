@@ -5,7 +5,7 @@ using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Api.Application.Features.Authentication.Commands.ChangePassword;
+namespace Api.Application.Features.User.Commands.ChangePassword;
 
 public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Unit>
 {

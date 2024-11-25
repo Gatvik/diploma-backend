@@ -1,10 +1,6 @@
 ﻿using Api.Application.Attributes;
 using Api.Application.Features.Authentication.Commands.ChangeEmail;
-using Api.Application.Features.Authentication.Commands.ChangePassword;
-using Api.Application.Features.Authentication.Commands.ConfirmEmail;
-using Api.Application.Features.Authentication.Commands.ConfirmPasswordRecovery;
 using Api.Application.Features.Authentication.Commands.Login;
-using Api.Application.Features.Authentication.Commands.RecoverPassword;
 using Api.Application.Features.Authentication.Commands.Register;
 using Api.Application.Features.Authentication.Commands.ValidateToken;
 using Api.Data.Models;

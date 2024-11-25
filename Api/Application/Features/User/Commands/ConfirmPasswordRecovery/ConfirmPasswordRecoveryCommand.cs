@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Api.Application.Features.Authentication.Commands.ConfirmPasswordRecovery;
+namespace Api.Application.Features.User.Commands.ConfirmPasswordRecovery;
 
 public class ConfirmPasswordRecoveryCommand : IRequest<Unit>
 {
