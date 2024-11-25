@@ -1,8 +1,11 @@
-﻿using Api.Application.Features.User.Commands.ChangePassword;
+﻿using Api.Application.Attributes;
+using Api.Application.Features.User.Commands.ChangePassword;
 using Api.Application.Features.User.Commands.ConfirmEmail;
 using Api.Application.Features.User.Commands.ConfirmPasswordRecovery;
 using Api.Application.Features.User.Commands.RecoverPassword;
+using Api.Application.Features.User.Queries.GetById;
 using Api.Application.Features.User.Queries.GetSelf;
+using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -61,5 +64,16 @@ public class UsersController : ControllerBase
     public async Task<ActionResult> GetSelf()
     {
         return Ok(await _mediator.Send(new GetSelfQuery()));
+    }
+    
+    /// <remarks>
+    /// <para>Allowed roles: Manager, Administrator, InventoryManager</para>
+    /// <para>Gets user information by provided id</para>
+    /// </remarks>
+    [AuthorizeEnums(Roles.Manager, Roles.Administrator, Roles.InventoryManager)]
+    [HttpGet("{userId:guid}")]
+    public async Task<ActionResult> GetById([FromRoute] Guid userId)
+    {
+        return Ok(await _mediator.Send(new GetUserByIdQuery {UserId = userId}));
     }
 }
