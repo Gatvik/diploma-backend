@@ -19,11 +19,11 @@ namespace Api.Controllers;
 [ApiController]
 [Route("api/v1/items")]
 [Authorize]
-public class ItemController : ControllerBase
+public class ItemsController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public ItemController(IMediator mediator)
+    public ItemsController(IMediator mediator)
     {
         _mediator = mediator;
     }

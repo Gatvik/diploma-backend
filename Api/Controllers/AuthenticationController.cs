@@ -46,36 +46,4 @@ public class AuthenticationController : ControllerBase
     {
         return Ok(await _mediator.Send(command));
     }
-    
-    /// <remarks>
-    /// Allowed roles: any (except non-authorized)
-    /// </remarks>
-    [Authorize]
-    [HttpPost("changePassword")]
-    public async Task<ActionResult<Unit>> ChangePassword(ChangePasswordCommand command)
-    {
-        return Ok(await _mediator.Send(command));
-    }
-    
-    /// <remarks>
-    /// Allowed roles: any (except non-authorized)
-    /// </remarks>
-    [Authorize]
-    [HttpPost("confirmEmail")]
-    public async Task<ActionResult<Unit>> ConfirmEmail(ConfirmEmailCommand command)
-    {
-        return Ok(await _mediator.Send(command));
-    }
-
-    [HttpPut("recoverPassword")]
-    public async Task<ActionResult<Unit>> RecoverPassword(RecoverPasswordCommand command)
-    {
-        return Ok(await _mediator.Send(command));
-    }
-    
-    [HttpPut("confirmPasswordRecovery")]
-    public async Task<ActionResult<Unit>> ConfirmPasswordRecover(ConfirmPasswordRecoveryCommand command)
-    {
-        return Ok(await _mediator.Send(command));
-    }
 }

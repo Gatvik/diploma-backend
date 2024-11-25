@@ -39,11 +39,33 @@ public class CreateAssignmentToUserCommandValidator : AbstractValidator<CreateAs
                 bool isTimeAvailable = await IsTimeAvailableForUser(atu.UserId, atu.StartTime, atu.EndTime);
                 if (!isTimeAvailable)
                 {
-                    context.AddFailure("The time to complete this assignment overlaps with another assignment");
+                    context.AddFailure("Time", "The time to complete this assignment overlaps with another assignment");
+                }
+            })
+            .CustomAsync(async (atu, context, cancellationToken) =>
+            {
+                bool isRoleAllowed = await IsRoleAllowed(atu.UserId, atu.AssignmentId);
+                if (!isRoleAllowed)
+                {
+                    context.AddFailure("Role", "This assignment cannot be performed by a user with this role");
                 }
             });
     }
-    
+
+    private async Task<bool> IsRoleAllowed(Guid userId, Guid assignmentId)
+    {
+        var assignment = await _assignmentRepository.GetByIdAsync(assignmentId, a => a.Role);
+        if (assignment is null)
+            return false;
+
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user is null)
+            return false;
+        var userRole = (await _userManager.GetRolesAsync(user)).First();
+
+        return assignment.Role.Name == userRole;
+    }
+
     private async Task<bool> IsTimeAvailableForUser(Guid userId, DateTime startTime, DateTime endTime)
     {
         var assignments = await _assignmentToUserRepository.GetAllByUserId(userId);

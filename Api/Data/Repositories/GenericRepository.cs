@@ -18,20 +18,72 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         return await Context.Set<T>().AsNoTracking().ToListAsync();
     }
+    
+    public async Task<IReadOnlyList<T>> GetAllAsync(params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = Context.Set<T>().AsNoTracking();
+
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return await query.ToListAsync();
+    }
 
     public async Task<IReadOnlyList<T>> GetAllByPredicateAsync(Expression<Func<T, bool>> predicate)
     {
         return await Context.Set<T>().AsNoTracking().Where(predicate).ToListAsync();
+    }
+    
+    public async Task<IReadOnlyList<T>> GetAllByPredicateAsync(
+        Expression<Func<T, bool>> predicate,
+        params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = Context.Set<T>().AsNoTracking();
+
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return await query.Where(predicate).ToListAsync();
     }
 
     public Task<T?> GetByIdAsync(Guid id)
     {
         return GetByPredicateAsync(q => q.Id == id);
     }
+    
+    public async Task<T?> GetByIdAsync(Guid id, params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = Context.Set<T>().AsNoTracking();
+
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return await query.FirstOrDefaultAsync(entity => entity.Id == id);
+    }
 
     public Task<T?> GetByPredicateAsync(Expression<Func<T, bool>> predicate)
     {
         return Context.Set<T>().AsNoTracking().FirstOrDefaultAsync(predicate);
+    }
+    
+    public async Task<T?> GetByPredicateAsync(
+        Expression<Func<T, bool>> predicate,
+        params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = Context.Set<T>().AsNoTracking();
+
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return await query.FirstOrDefaultAsync(predicate);
     }
     
     public async Task CreateAsync(T entity)

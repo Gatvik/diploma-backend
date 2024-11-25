@@ -24,7 +24,9 @@ public class RecoverPasswordCommandHandler : IRequestHandler<RecoverPasswordComm
             return Unit.Value; // Do not reveal either user registered is or not
         
         var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-        await _emailService.SendPasswordRecoveryCode(user.Email!, code);
+        // TODO: Enable emails
+        Console.WriteLine(code);
+        //await _emailService.SendPasswordRecoveryCode(user.Email!, code);
 
         return Unit.Value;
     }

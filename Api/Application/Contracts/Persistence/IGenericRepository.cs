@@ -12,4 +12,11 @@ public interface IGenericRepository<T> where T : BaseEntity
     Task CreateAsync(T entity);
     Task UpdateAsync(T entity);
     Task DeleteAsync(T entity);
+
+    public Task<IReadOnlyList<T>> GetAllAsync(params Expression<Func<T, object>>[] includes);
+    public Task<IReadOnlyList<T>> GetAllByPredicateAsync(Expression<Func<T, bool>> predicate,
+        params Expression<Func<T, object>>[] includes);
+    public Task<T?> GetByIdAsync(Guid id, params Expression<Func<T, object>>[] includes);
+    public Task<T?> GetByPredicateAsync(Expression<Func<T, bool>> predicate,
+        params Expression<Func<T, object>>[] includes);
 }

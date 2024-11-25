@@ -11,13 +11,13 @@ using Microsoft.Extensions.Options;
 
 namespace Api.Application.Features.Authentication.Commands.Register;
 
-public class RegisterCommandHandler : IRequestHandler<RegistrationCommand, RegistrationResponse>
+public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, RegistrationResponse>
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly IEmailService _emailService;
     private readonly JwtSettings _jwtSettings;
 
-    public RegisterCommandHandler(UserManager<AppUser> userManager, IOptions<JwtSettings> jwtSettings, IEmailService emailService)
+    public RegistrationCommandHandler(UserManager<AppUser> userManager, IOptions<JwtSettings> jwtSettings, IEmailService emailService)
     {
         _userManager = userManager;
         _emailService = emailService;
@@ -58,9 +58,9 @@ public class RegisterCommandHandler : IRequestHandler<RegistrationCommand, Regis
         var code = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
 
         // TODO: Enable emails
-        // Console.WriteLine(code);
-        // Console.WriteLine(password);
-        await _emailService.SendEmailConfirmationCode(request.Email, password, code);
+        Console.WriteLine(code);
+        Console.WriteLine(password);
+        // await _emailService.SendEmailConfirmationCode(request.Email, password, code);
         
         await _userManager.AddToRoleAsync(user, request.Role);
         
