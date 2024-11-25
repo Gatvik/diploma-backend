@@ -3,6 +3,7 @@ using Api.Application.Features.User.Commands.ChangePassword;
 using Api.Application.Features.User.Commands.ConfirmEmail;
 using Api.Application.Features.User.Commands.ConfirmPasswordRecovery;
 using Api.Application.Features.User.Commands.RecoverPassword;
+using Api.Application.Features.User.Commands.Update;
 using Api.Application.Features.User.Queries.GetAll;
 using Api.Application.Features.User.Queries.GetById;
 using Api.Application.Features.User.Queries.GetSelf;
@@ -22,6 +23,16 @@ public class UsersController : ControllerBase
     public UsersController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+    
+    /// <remarks>
+    /// Allowed roles: Administrator
+    /// </remarks>
+    [AuthorizeEnums(Roles.Administrator)]
+    [HttpPut("update")]
+    public async Task<ActionResult<Unit>> ChangePassword(UpdateUserCommand command)
+    {
+        return Ok(await _mediator.Send(command));
     }
     
     /// <remarks>
