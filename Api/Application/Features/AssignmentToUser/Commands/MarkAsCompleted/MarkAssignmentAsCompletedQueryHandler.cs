@@ -23,8 +23,7 @@ public class MarkAssignmentAsCompletedQueryHandler : IRequestHandler<MarkAssignm
     {
         var userId = _userService.UserId;
         var assignment = await _assignmentToUserRepository.GetByPredicateAsync(
-            a => a.UserId.ToString() == userId && a.Id == request.AssignmentToUserId, incl => incl.Assignment.Role,
-            incl => incl.User);
+            a => a.UserId.ToString() == userId && a.Id == request.AssignmentToUserId);
         if (assignment is null)
             throw new NotFoundException();
 
