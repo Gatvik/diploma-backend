@@ -1,4 +1,4 @@
-﻿using Api.Application.Features.AssignmentToUser.Commands.Common;
+﻿using Api.Application.Features.AssignmentToUser.Common;
 using MediatR;
 
 namespace Api.Application.Features.AssignmentToUser.Queries.GetAllByUserId;

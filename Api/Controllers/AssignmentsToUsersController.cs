@@ -1,5 +1,6 @@
 ﻿using Api.Application.Attributes;
 using Api.Application.Features.AssignmentToUser.Commands.Create;
+using Api.Application.Features.AssignmentToUser.Commands.MarkAsCompleted;
 using Api.Application.Features.AssignmentToUser.Queries.GetAllByUserId;
 using Api.Data.Models;
 using MediatR;
@@ -26,6 +27,16 @@ public class AssignmentsToUsersController : ControllerBase
     [HttpPost]
     [AuthorizeEnums(Roles.Manager)]
     public async Task<ActionResult<Unit>> Create(CreateAssignmentToUserCommand request)
+    {
+        return Ok(await _mediator.Send(request));
+    }
+    
+    /// <remarks>
+    /// Allowed roles: Housemaid, Technician
+    /// </remarks>
+    [HttpPut("markAsCompleted")]
+    [AuthorizeEnums(Roles.Housemaid, Roles.Technician)]
+    public async Task<ActionResult<Unit>> MarkAsCompleted(MarkAssignmentAsCompletedQuery request)
     {
         return Ok(await _mediator.Send(request));
     }

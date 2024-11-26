@@ -1,7 +1,7 @@
 ﻿using Api.Application.Features.Assignment.Common;
 using Api.Application.Features.User.Common;
 
-namespace Api.Application.Features.AssignmentToUser.Commands.Common;
+namespace Api.Application.Features.AssignmentToUser.Common;
 
 public class AssignmentToUserDto
 {

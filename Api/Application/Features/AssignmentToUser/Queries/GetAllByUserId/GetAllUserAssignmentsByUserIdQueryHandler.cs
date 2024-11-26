@@ -1,6 +1,6 @@
 ﻿using Api.Application.Contracts.Persistence;
 using Api.Application.Exceptions;
-using Api.Application.Features.AssignmentToUser.Commands.Common;
+using Api.Application.Features.AssignmentToUser.Common;
 using AutoMapper;
 using MediatR;
 

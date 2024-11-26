@@ -1,5 +1,5 @@
-﻿using Api.Application.Features.AssignmentToUser.Commands.Common;
-using Api.Application.Features.AssignmentToUser.Commands.Create;
+﻿using Api.Application.Features.AssignmentToUser.Commands.Create;
+using Api.Application.Features.AssignmentToUser.Common;
 using Api.Domain;
 using AutoMapper;
 
