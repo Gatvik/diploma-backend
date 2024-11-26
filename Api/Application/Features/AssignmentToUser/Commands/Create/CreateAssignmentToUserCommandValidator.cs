@@ -3,7 +3,7 @@ using Api.Data.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 
-namespace Api.Application.Features.AssignmentToUser.Create;
+namespace Api.Application.Features.AssignmentToUser.Commands.Create;
 
 public class CreateAssignmentToUserCommandValidator : AbstractValidator<CreateAssignmentToUserCommand>
 {

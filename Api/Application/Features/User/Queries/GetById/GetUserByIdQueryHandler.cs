@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Api.Application.Features.User.Queries.GetById;
 
-public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDto>
+public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, AppUserDto>
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly IMapper _mapper;
@@ -18,12 +18,12 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDto
         _mapper = mapper;
     }
     
-    public async Task<UserDto> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+    public async Task<AppUserDto> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByIdAsync(request.UserId.ToString());
         if (user is null)
             throw new NotFoundException();
 
-        return _mapper.Map<UserDto>(user);
+        return _mapper.Map<AppUserDto>(user);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Api.Application.Features.User.Common;
 
-public class UserDto
+public class AppUserDto
 {
     public Guid Id { get; set; }
     public string FirstName { get; set; }

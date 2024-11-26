@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Api.Application.Features.User.Queries.GetSelf;
 
-public class GetSelfQuery : IRequest<UserDto>
+public class GetSelfQuery : IRequest<AppUserDto>
 {
     
 }

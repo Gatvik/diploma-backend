@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Api.Application.Features.User.Queries.GetAll;
 
-public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<UserDto>>
+public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<AppUserDto>>
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly IMapper _mapper;
@@ -17,10 +17,10 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<Us
         _mapper = mapper;
     }
     
-    public async Task<List<UserDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+    public async Task<List<AppUserDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
         var users = _userManager.Users;
 
-        return _mapper.Map<List<UserDto>>(users);
+        return _mapper.Map<List<AppUserDto>>(users);
     }
 }

@@ -8,6 +8,6 @@ public class AppUserMappingProfile : Profile
 {
     public AppUserMappingProfile()
     {
-        CreateMap<AppUser, UserDto>();
+        CreateMap<AppUser, AppUserDto>();
     }
 }

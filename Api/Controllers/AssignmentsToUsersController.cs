@@ -1,5 +1,6 @@
 ﻿using Api.Application.Attributes;
-using Api.Application.Features.AssignmentToUser.Create;
+using Api.Application.Features.AssignmentToUser.Commands.Create;
+using Api.Application.Features.AssignmentToUser.Queries.GetAllByUserId;
 using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -27,5 +28,15 @@ public class AssignmentsToUsersController : ControllerBase
     public async Task<ActionResult<Unit>> Create(CreateAssignmentToUserCommand request)
     {
         return Ok(await _mediator.Send(request));
+    }
+    
+    /// <remarks>
+    /// Allowed roles: Manager
+    /// </remarks>
+    [HttpGet("{userId:guid}")]
+    [AuthorizeEnums(Roles.Manager)]
+    public async Task<ActionResult<Unit>> GetAllByUserId(Guid userId)
+    {
+        return Ok(await _mediator.Send(new GetAllUserAssignmentsByUserIdQuery {UserId = userId}));
     }
 }

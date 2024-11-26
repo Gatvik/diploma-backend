@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Api.Application.Features.User.Queries.GetSelf;
 
-public class GetSelfQueryHandler : IRequestHandler<GetSelfQuery, UserDto>
+public class GetSelfQueryHandler : IRequestHandler<GetSelfQuery, AppUserDto>
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly IUserService _userService;
@@ -20,10 +20,10 @@ public class GetSelfQueryHandler : IRequestHandler<GetSelfQuery, UserDto>
         _mapper = mapper;
     }
     
-    public async Task<UserDto> Handle(GetSelfQuery request, CancellationToken cancellationToken)
+    public async Task<AppUserDto> Handle(GetSelfQuery request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByIdAsync(_userService.UserId);
 
-        return _mapper.Map<UserDto>(user);
+        return _mapper.Map<AppUserDto>(user);
     }
 }

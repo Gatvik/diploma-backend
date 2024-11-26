@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Api.Application.Features.AssignmentToUser.Create;
+namespace Api.Application.Features.AssignmentToUser.Commands.Create;
 
 public class CreateAssignmentToUserCommand : IRequest<Unit>
 {

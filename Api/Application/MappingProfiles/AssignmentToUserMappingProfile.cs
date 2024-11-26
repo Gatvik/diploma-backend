@@ -1,4 +1,5 @@
-﻿using Api.Application.Features.AssignmentToUser.Create;
+﻿using Api.Application.Features.AssignmentToUser.Commands.Common;
+using Api.Application.Features.AssignmentToUser.Commands.Create;
 using Api.Domain;
 using AutoMapper;
 
@@ -9,5 +10,6 @@ public class AssignmentToUserMappingProfile : Profile
     public AssignmentToUserMappingProfile()
     {
         CreateMap<CreateAssignmentToUserCommand, AssignmentToUser>();
+        CreateMap<AssignmentToUser, AssignmentToUserDto>();
     }
 }

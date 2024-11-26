@@ -5,7 +5,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Api.Application.Features.AssignmentToUser.Create;
+namespace Api.Application.Features.AssignmentToUser.Commands.Create;
 
 public class CreateAssignmentToUserCommandHandler : IRequestHandler<CreateAssignmentToUserCommand, Unit>
 {

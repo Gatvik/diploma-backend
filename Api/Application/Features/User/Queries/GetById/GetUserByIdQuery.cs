@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Api.Application.Features.User.Queries.GetById;
 
-public class GetUserByIdQuery : IRequest<UserDto>
+public class GetUserByIdQuery : IRequest<AppUserDto>
 {
     public Guid UserId { get; set; }
 }
