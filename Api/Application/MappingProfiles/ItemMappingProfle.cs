@@ -13,5 +13,7 @@ public class ItemMappingProfile : Profile
         CreateMap<Item, ItemDto>();
         CreateMap<CreateItemCommand, Item>();
         CreateMap<UpdateItemCommand, Item>();
+        CreateMap<Item, LackingItemDto>()
+            .ForMember(dest => dest.RecommendedQuantityToOrder, opt => opt.MapFrom(src => src.MinimumStockQuantity - src.Quantity));
     }
 }

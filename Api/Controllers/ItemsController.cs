@@ -7,6 +7,7 @@ using Api.Application.Features.Item.Commands.Modify;
 using Api.Application.Features.Item.Commands.Update;
 using Api.Application.Features.Item.Queries.GetAll;
 using Api.Application.Features.Item.Queries.GetByName;
+using Api.Application.Features.Item.Queries.GetLackingItems;
 using Api.Application.Features.Item.Shared;
 using Api.Data.Models;
 using MediatR;
@@ -82,5 +83,23 @@ public class ItemsController : ControllerBase
             return Ok(await _mediator.Send(new GetAllItemsQuery()));
         
         return Ok(await _mediator.Send(new GetItemByNameQuery { ItemName = name }));
+    }
+    
+    /// <remarks>
+    /// Allowed roles: InventoryManager
+    /// </remarks>
+    [HttpGet("lackingItems")]
+    public async Task<ActionResult> GetLackingItems()
+    {
+        return Ok(await _mediator.Send(new GetLackingItemsQuery()));
+    }
+    
+    /// <remarks>
+    /// Allowed roles: InventoryManager
+    /// </remarks>
+    [HttpPut("order")]
+    public async Task<ActionResult> OrderItems()
+    {
+        throw new NotImplementedException();
     }
 }
