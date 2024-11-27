@@ -62,6 +62,7 @@ public class ExceptionMiddleware
                 {
                     Status = (int)statusCode,
                     Type = nameof(NotFoundException),
+                    Title = notFound.Message
                 };
                 break;
             /*
