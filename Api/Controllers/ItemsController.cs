@@ -4,6 +4,7 @@ using Api.Application.Features.Authentication.Commands.Login;
 using Api.Application.Features.Item.Commands.Create;
 using Api.Application.Features.Item.Commands.Delete;
 using Api.Application.Features.Item.Commands.Modify;
+using Api.Application.Features.Item.Commands.Order;
 using Api.Application.Features.Item.Commands.Update;
 using Api.Application.Features.Item.Queries.GetAll;
 using Api.Application.Features.Item.Queries.GetByName;
@@ -74,7 +75,9 @@ public class ItemsController : ControllerBase
     }
     
     /// <remarks>
-    /// Allowed roles: any (except non-authorized)
+    /// <para>Allowed roles: any (except non-authorized)</para>
+    /// <para>When "name" in query provided, than returns 1 item by name</para>
+    /// <para>When not, returns all items</para>
     /// </remarks>
     [HttpGet]
     public async Task<ActionResult<List<ItemDto>>> Get([FromQuery] string? name)
@@ -98,8 +101,8 @@ public class ItemsController : ControllerBase
     /// Allowed roles: InventoryManager
     /// </remarks>
     [HttpPut("order")]
-    public async Task<ActionResult> OrderItems()
+    public async Task<ActionResult> OrderItems(OrderItemsCommand request)
     {
-        throw new NotImplementedException();
+        return Ok(await _mediator.Send(request));
     }
 }
