@@ -1,7 +1,8 @@
 ﻿using Api.Application.Attributes;
 using Api.Application.Features.AssignmentToUser.Commands.Create;
 using Api.Application.Features.AssignmentToUser.Commands.MarkAsCompleted;
-using Api.Application.Features.AssignmentToUser.Queries.GetAllByUserId;
+using Api.Application.Features.AssignmentToUser.Queries.GetAll;
+using Api.Application.Features.AssignmentToUser.Queries.GetAllByUserEmail;
 using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -43,11 +44,16 @@ public class AssignmentsToUsersController : ControllerBase
     
     /// <remarks>
     /// Allowed roles: Manager
+    /// <para>When "email" in query provided, than returns all assignments to users found by user's email</para>
+    /// <para>When not, returns all all assignments to users</para>
     /// </remarks>
-    [HttpGet("{userId:guid}")]
+    [HttpGet]
     [AuthorizeEnums(Roles.Manager)]
-    public async Task<ActionResult<Unit>> GetAllByUserId(Guid userId)
+    public async Task<ActionResult<Unit>> GetAll([FromQuery] string? email)
     {
-        return Ok(await _mediator.Send(new GetAllUserAssignmentsByUserIdQuery {UserId = userId}));
+        if (email is null)
+            return Ok(await _mediator.Send(new GetAllAssignmentsToUserQuery()));
+            
+        return Ok(await _mediator.Send(new GetAllAssignmentsByUserEmailQuery {Email = email}));
     }
 }
