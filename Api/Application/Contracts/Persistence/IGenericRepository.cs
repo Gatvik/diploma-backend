@@ -10,7 +10,9 @@ public interface IGenericRepository<T> where T : BaseEntity
     Task<T?> GetByIdAsync(Guid id);
     Task<T?> GetByPredicateAsync(Expression<Func<T, bool>> predicate);
     Task CreateAsync(T entity);
+    Task CreateRangeAsync(IEnumerable<T> entity);
     Task UpdateAsync(T entity);
+    Task UpdateRangeAsync(IEnumerable<T> entities);
     Task DeleteAsync(T entity);
 
     public Task<IReadOnlyList<T>> GetAllAsync(params Expression<Func<T, object>>[] includes);

@@ -91,10 +91,22 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         await Context.AddAsync(entity);
         await Context.SaveChangesAsync();
     }
+    
+    public async Task CreateRangeAsync(IEnumerable<T> entity)
+    {
+        await Context.AddRangeAsync(entity);
+        await Context.SaveChangesAsync();
+    }
 
     public async Task UpdateAsync(T entity)
     {
         Context.Entry(entity).State = EntityState.Modified;
+        await Context.SaveChangesAsync();
+    }
+    
+    public async Task UpdateRangeAsync(IEnumerable<T> entities)
+    {
+        Context.UpdateRange(entities);
         await Context.SaveChangesAsync();
     }
 
