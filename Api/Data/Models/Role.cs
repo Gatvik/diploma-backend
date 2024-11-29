@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Api.Data.Models;
 
-public class AppRole : IdentityRole<Guid>
+public class Role : IdentityRole<Guid>
 {
     public ICollection<Assignment> Assignments { get; set; }
 }

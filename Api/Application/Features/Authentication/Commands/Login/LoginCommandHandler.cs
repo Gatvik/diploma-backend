@@ -10,11 +10,11 @@ namespace Api.Application.Features.Authentication.Commands.Login;
 
 public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
 {
-    private readonly SignInManager<AppUser> _signInManager;
-    private readonly UserManager<AppUser> _userManager;
+    private readonly SignInManager<Data.Models.User> _signInManager;
+    private readonly UserManager<Data.Models.User> _userManager;
     private readonly JwtSettings _jwtSettings;
 
-    public LoginCommandHandler(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
+    public LoginCommandHandler(UserManager<Data.Models.User> userManager, SignInManager<Data.Models.User> signInManager,
         IOptions<JwtSettings> jwtSettings)
     {
         _userManager = userManager;

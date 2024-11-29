@@ -9,9 +9,9 @@ namespace Api.Application.Features.User.Commands.Update;
 
 public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>
 {
-    private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<Data.Models.User> _userManager;
 
-    public UpdateUserCommandHandler(UserManager<AppUser> userManager)
+    public UpdateUserCommandHandler(UserManager<Data.Models.User> userManager)
     {
         _userManager = userManager;
     }

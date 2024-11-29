@@ -8,6 +8,6 @@ public class AppRoleMappingProfile : Profile
 {
     public AppRoleMappingProfile()
     {
-        CreateMap<AppRole, AppRoleDto>();
+        CreateMap<Role, AppRoleDto>();
     }
 }

@@ -10,7 +10,7 @@ public class Assignment : BaseEntity
     
     // A certain task can only be performed by a certain worker.
     public Guid RoleId { get; set; }
-    public AppRole Role { get; set; }
+    public Role Role { get; set; }
     
     public ICollection<AssignmentToUser> AssignmentsToUsers { get; set; }
 }

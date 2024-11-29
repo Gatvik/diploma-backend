@@ -9,10 +9,10 @@ namespace Api.Application.Features.User.Commands.ChangePassword;
 
 public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Unit>
 {
-    private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<Data.Models.User> _userManager;
     private readonly IUserService _userService;
 
-    public ChangePasswordCommandHandler(UserManager<AppUser> userManager, IUserService userService)
+    public ChangePasswordCommandHandler(UserManager<Data.Models.User> userManager, IUserService userService)
     {
         _userManager = userManager;
         _userService = userService;

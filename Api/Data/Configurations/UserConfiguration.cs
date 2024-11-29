@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Api.Data.Configurations;
 
-public class UserConfiguration : IEntityTypeConfiguration<AppUser>
+public class UserConfiguration : IEntityTypeConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<AppUser> builder)
+    public void Configure(EntityTypeBuilder<User> builder)
     {
-        var hasher = new PasswordHasher<AppUser>();
+        var hasher = new PasswordHasher<User>();
         builder.HasData(
-            new AppUser
+            new User
             {
                 Id = Guid.Parse("8e445865-a24d-4543-a6c6-9443d048cdb9"),
                 Email = "admin@localhost.com",

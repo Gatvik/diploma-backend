@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241114082843_Initial")]
+    [Migration("20241129102421_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Api.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Api.Data.Models.AppRole", b =>
+            modelBuilder.Entity("Api.Data.Models.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,7 +84,7 @@ namespace Api.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Api.Data.Models.AppUser", b =>
+            modelBuilder.Entity("Api.Data.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -165,7 +165,7 @@ namespace Api.Data.Migrations
                         {
                             Id = new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3375f1b4-b0fe-4ada-ac4c-9d7a80a21ee7",
+                            ConcurrencyStamp = "113c24c9-ca47-4629-8647-08e2116acf9e",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -173,8 +173,9 @@ namespace Api.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMVTzi5ZgxYcgrD+DkhfhfSZ+FwXP2M1oBfhFBwj1M7wh2vLhf0DRqXDF5jw08zeTQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENvzJHYBBdbNmvOCSvIc5+QyPY20WwAIFN15CRE4MkTMyZi63QaK33ziN8pUoz63bQ==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
                             Sex = "male",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
@@ -443,7 +444,7 @@ namespace Api.Data.Migrations
 
             modelBuilder.Entity("Api.Domain.Assignment", b =>
                 {
-                    b.HasOne("Api.Data.Models.AppRole", "Role")
+                    b.HasOne("Api.Data.Models.Role", "Role")
                         .WithMany("Assignments")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -460,7 +461,7 @@ namespace Api.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Api.Data.Models.AppUser", "User")
+                    b.HasOne("Api.Data.Models.User", "User")
                         .WithMany("AssignmentsToUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -479,7 +480,7 @@ namespace Api.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Api.Data.Models.AppUser", "User")
+                    b.HasOne("Api.Data.Models.User", "User")
                         .WithMany("ItemHistories")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.SetNull);
@@ -491,7 +492,7 @@ namespace Api.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Api.Data.Models.AppRole", null)
+                    b.HasOne("Api.Data.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -500,7 +501,7 @@ namespace Api.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Api.Data.Models.AppUser", null)
+                    b.HasOne("Api.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -509,7 +510,7 @@ namespace Api.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Api.Data.Models.AppUser", null)
+                    b.HasOne("Api.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -518,13 +519,13 @@ namespace Api.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Api.Data.Models.AppRole", null)
+                    b.HasOne("Api.Data.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Api.Data.Models.AppUser", null)
+                    b.HasOne("Api.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -533,19 +534,19 @@ namespace Api.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Api.Data.Models.AppUser", null)
+                    b.HasOne("Api.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Api.Data.Models.AppRole", b =>
+            modelBuilder.Entity("Api.Data.Models.Role", b =>
                 {
                     b.Navigation("Assignments");
                 });
 
-            modelBuilder.Entity("Api.Data.Models.AppUser", b =>
+            modelBuilder.Entity("Api.Data.Models.User", b =>
                 {
                     b.Navigation("AssignmentsToUsers");
 

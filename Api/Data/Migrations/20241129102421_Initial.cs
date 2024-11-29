@@ -267,7 +267,7 @@ namespace Api.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Sex", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"), 0, "3375f1b4-b0fe-4ada-ac4c-9d7a80a21ee7", "admin@localhost.com", true, "Admin", "Admin", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEMVTzi5ZgxYcgrD+DkhfhfSZ+FwXP2M1oBfhFBwj1M7wh2vLhf0DRqXDF5jw08zeTQ==", null, false, null, "male", false, "admin@localhost.com" });
+                values: new object[] { new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"), 0, "113c24c9-ca47-4629-8647-08e2116acf9e", "admin@localhost.com", true, "Admin", "Admin", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAENvzJHYBBdbNmvOCSvIc5+QyPY20WwAIFN15CRE4MkTMyZi63QaK33ziN8pUoz63bQ==", null, false, "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6", "male", false, "admin@localhost.com" });
 
             migrationBuilder.InsertData(
                 table: "Items",

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Api.Application.Features.User.Queries.GetAll;
 
-public class GetAllUsersQuery : IRequest<List<AppUserDto>>
+public class GetAllUsersQuery : IRequest<List<UserDto>>
 {
     
 }

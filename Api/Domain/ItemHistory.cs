@@ -13,5 +13,5 @@ public class ItemHistory : BaseEntity
     public Item Item { get; set; }
 
     public Guid? UserId { get; set; }
-    public AppUser? User { get; set; }
+    public User? User { get; set; }
 }

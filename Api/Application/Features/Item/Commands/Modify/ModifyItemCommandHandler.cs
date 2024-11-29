@@ -13,11 +13,11 @@ public class ModifyItemCommandHandler : IRequestHandler<ModifyItemCommand, Modif
     private readonly IItemRepository _itemRepository;
     private readonly IItemHistoryRepository _itemHistoryRepository;
     private readonly IUserService _userService;
-    private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<Data.Models.User> _userManager;
 
     public ModifyItemCommandHandler(IItemRepository itemRepository, IItemHistoryRepository itemHistoryRepository, 
         IUserService userService,
-        UserManager<AppUser> userManager)
+        UserManager<Data.Models.User> userManager)
     {
         _itemRepository = itemRepository;
         _itemHistoryRepository = itemHistoryRepository;

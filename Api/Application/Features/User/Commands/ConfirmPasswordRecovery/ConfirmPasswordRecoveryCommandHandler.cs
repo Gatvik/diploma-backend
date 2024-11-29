@@ -8,9 +8,9 @@ namespace Api.Application.Features.User.Commands.ConfirmPasswordRecovery;
 
 public class ConfirmPasswordRecoveryCommandHandler : IRequestHandler<ConfirmPasswordRecoveryCommand, Unit>
 {
-    private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<Data.Models.User> _userManager;
 
-    public ConfirmPasswordRecoveryCommandHandler(UserManager<AppUser> userManager)
+    public ConfirmPasswordRecoveryCommandHandler(UserManager<Data.Models.User> userManager)
     {
         _userManager = userManager;
     }

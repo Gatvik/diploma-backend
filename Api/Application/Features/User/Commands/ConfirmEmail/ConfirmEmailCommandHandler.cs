@@ -8,10 +8,10 @@ namespace Api.Application.Features.User.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, Unit>
 {
-    private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<Data.Models.User> _userManager;
     private readonly IUserService _userService;
 
-    public ConfirmEmailCommandHandler(UserManager<AppUser> userManager, IUserService userService)
+    public ConfirmEmailCommandHandler(UserManager<Data.Models.User> userManager, IUserService userService)
     {
         this._userManager = userManager;
         _userService = userService;

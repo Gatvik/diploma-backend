@@ -7,10 +7,10 @@ namespace Api.Application.Features.User.Commands.RecoverPassword;
 
 public class RecoverPasswordCommandHandler : IRequestHandler<RecoverPasswordCommand, Unit>
 {
-    private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<Data.Models.User> _userManager;
     private readonly IEmailService _emailService;
 
-    public RecoverPasswordCommandHandler(UserManager<AppUser> userManager, IEmailService emailService)
+    public RecoverPasswordCommandHandler(UserManager<Data.Models.User> userManager, IEmailService emailService)
     {
         _userManager = userManager;
         _emailService = emailService;

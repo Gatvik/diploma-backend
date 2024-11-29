@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Data;
 
-public class DataContext : IdentityDbContext<AppUser, AppRole, Guid>
+public class DataContext : IdentityDbContext<User, Role, Guid>
 {
     public DataContext(DbContextOptions<DataContext> options)
         : base(options)
@@ -16,7 +16,33 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, Guid>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
-
+        
+        // builder.Entity<Assignment>()
+        //     .HasOne(a => a.Role)
+        //     .WithMany(r => r.Assignments) 
+        //     .HasForeignKey(a => a.RoleId)
+        //     .OnDelete(DeleteBehavior.Restrict);
+        //
+        // builder.Entity<UserRole>()
+        //     .HasOne(a => a.User)
+        //     .WithMany(a => a.UserRoles)
+        //     .HasForeignKey(a => a.UserId);
+        //
+        // builder.Entity<UserRole>()
+        //     .HasOne(a => a.Role)
+        //     .WithMany(a => a.UserRoles)
+        //     .HasForeignKey(a => a.RoleId);
+        //
+        // builder.Entity<Role>()
+        //     .HasMany(a => a.UserRoles)
+        //     .WithOne(a => a.Role)
+        //     .HasForeignKey(a => a.RoleId);
+        //
+        // builder.Entity<User>()
+        //     .HasMany(a => a.UserRoles)
+        //     .WithOne(a => a.User)
+        //     .HasForeignKey(a => a.UserId);
+        
         builder.Entity<AssignmentToUser>()
             .HasOne(atu => atu.Assignment)
             .WithMany(a => a.AssignmentsToUsers)

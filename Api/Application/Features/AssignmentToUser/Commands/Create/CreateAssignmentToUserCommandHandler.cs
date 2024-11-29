@@ -12,10 +12,10 @@ public class CreateAssignmentToUserCommandHandler : IRequestHandler<CreateAssign
     private readonly IAssignmentToUserRepository _assignmentToUserRepository;
     private readonly IAssignmentRepository _assignmentRepository;
     private readonly IMapper _mapper;
-    private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<Data.Models.User> _userManager;
 
     public CreateAssignmentToUserCommandHandler(IAssignmentToUserRepository assignmentToUserRepository, 
-        IAssignmentRepository assignmentRepository, IMapper mapper, UserManager<AppUser> userManager)
+        IAssignmentRepository assignmentRepository, IMapper mapper, UserManager<Data.Models.User> userManager)
     {
         _assignmentToUserRepository = assignmentToUserRepository;
         _assignmentRepository = assignmentRepository;

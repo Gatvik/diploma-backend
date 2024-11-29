@@ -9,16 +9,16 @@ namespace Api.Application.Features.Authentication.Shared;
 
 public class JwtTokenGenerator
 {
-    private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<Data.Models.User> _userManager;
     private readonly JwtSettings _jwtSettings;
     
-    public JwtTokenGenerator(UserManager<AppUser> userManager, JwtSettings jwtSettings)
+    public JwtTokenGenerator(UserManager<Data.Models.User> userManager, JwtSettings jwtSettings)
     {
         _userManager = userManager;
         _jwtSettings = jwtSettings;
     }
     
-    public async Task<JwtSecurityToken> GenerateTokenAsync(AppUser user)
+    public async Task<JwtSecurityToken> GenerateTokenAsync(Data.Models.User user)
     {
         var userClaims = await _userManager.GetClaimsAsync(user);
         var roles = await _userManager.GetRolesAsync(user);

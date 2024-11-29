@@ -7,11 +7,11 @@ namespace Api.Application.Features.AssignmentToUser.Commands.Create;
 
 public class CreateAssignmentToUserCommandValidator : AbstractValidator<CreateAssignmentToUserCommand>
 {
-    private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<Data.Models.User> _userManager;
     private readonly IAssignmentRepository _assignmentRepository;
     private readonly IAssignmentToUserRepository _assignmentToUserRepository;
 
-    public CreateAssignmentToUserCommandValidator(UserManager<AppUser> userManager, IAssignmentRepository assignmentRepository,
+    public CreateAssignmentToUserCommandValidator(UserManager<Data.Models.User> userManager, IAssignmentRepository assignmentRepository,
         IAssignmentToUserRepository assignmentToUserRepository)
     {
         _userManager = userManager;

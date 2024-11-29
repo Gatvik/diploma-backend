@@ -8,10 +8,10 @@ namespace Api.Application.Features.Authentication.Commands.ChangeEmail;
 
 public class ChangeEmailCommandHandler : IRequestHandler<ChangeEmailCommand, Unit>
 {
-    private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<Data.Models.User> _userManager;
     private readonly IUserService _userService;
 
-    public ChangeEmailCommandHandler(UserManager<AppUser> userManager, IUserService userService)
+    public ChangeEmailCommandHandler(UserManager<Data.Models.User> userManager, IUserService userService)
     {
         _userManager = userManager;
         _userService = userService;

@@ -14,5 +14,5 @@ public class AssignmentToUser : BaseEntity
     public Assignment Assignment { get; set; }
 
     public Guid UserId { get; set; }
-    public AppUser User { get; set; }
+    public User User { get; set; }
 }

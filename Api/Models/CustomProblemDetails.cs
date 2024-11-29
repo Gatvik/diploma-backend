@@ -15,5 +15,5 @@ public class CustomProblemDetails
     public int? Status { get; set; }
     
     [JsonPropertyName("errors")]
-    public IDictionary<string, string[]> Errors { get; set; } = new Dictionary<string, string[]>();
+    public IDictionary<string, string[]>? Errors { get; set; } = new Dictionary<string, string[]>();
 }

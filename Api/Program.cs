@@ -10,6 +10,7 @@ using Api.Data.Repositories;
 using Api.Infrastructure;
 using Api.Infrastructure.Models;
 using Api.Middleware;
+using Api.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -32,7 +33,7 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.EnableSensitiveDataLogging();
 });
 
-builder.Services.AddIdentity<AppUser, AppRole>(options =>
+builder.Services.AddIdentity<User, Role>(options =>
 {
     options.User.RequireUniqueEmail = true;
 }).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
@@ -127,6 +128,31 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+app.UseStatusCodePages(async context =>
+{
+    var response = context.HttpContext.Response;
+
+    if (response.StatusCode == StatusCodes.Status401Unauthorized)
+    {
+        response.ContentType = "application/json";
+        await response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new CustomProblemDetails
+        {
+            Type = "UnauthorizedException",
+            Title = "You should login to access this resource",
+            Status = 401
+        }));
+    }
+    else if (response.StatusCode == StatusCodes.Status403Forbidden)
+    {
+        response.ContentType = "application/json";
+        await response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new CustomProblemDetails
+        {
+            Type = "ForbiddenException",
+            Title = "You can't access this resource",
+            Status = 403
+        }));
+    }
+});
 // Use global exception handler
 app.UseMiddleware<ExceptionMiddleware>();
 

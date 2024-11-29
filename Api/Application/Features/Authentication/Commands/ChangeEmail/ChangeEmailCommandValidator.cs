@@ -6,9 +6,9 @@ namespace Api.Application.Features.Authentication.Commands.ChangeEmail;
 
 public class ChangeEmailCommandValidator : AbstractValidator<ChangeEmailCommand>
 {
-    private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<Data.Models.User> _userManager;
 
-    public ChangeEmailCommandValidator(UserManager<AppUser> userManager)
+    public ChangeEmailCommandValidator(UserManager<Data.Models.User> userManager)
     {
         _userManager = userManager;
         RuleFor(c => c.NewEmail)

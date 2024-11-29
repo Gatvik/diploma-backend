@@ -13,11 +13,11 @@ namespace Api.Application.Features.Authentication.Commands.Register;
 
 public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, RegistrationResponse>
 {
-    private readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<Data.Models.User> _userManager;
     private readonly IEmailService _emailService;
     private readonly JwtSettings _jwtSettings;
 
-    public RegistrationCommandHandler(UserManager<AppUser> userManager, IOptions<JwtSettings> jwtSettings, IEmailService emailService)
+    public RegistrationCommandHandler(UserManager<Data.Models.User> userManager, IOptions<JwtSettings> jwtSettings, IEmailService emailService)
     {
         _userManager = userManager;
         _emailService = emailService;
@@ -32,7 +32,7 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, R
         if (!validationResult.IsValid)
             throw new BadRequestException(validationResult);
         
-        var user = new AppUser
+        var user = new Data.Models.User
         {
             Email = request.Email,
             UserName = request.Email,
@@ -60,7 +60,7 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, R
         // TODO: Enable emails
         Console.WriteLine(code);
         Console.WriteLine(password);
-        // await _emailService.SendEmailConfirmationCode(request.Email, password, code);
+        //await _emailService.SendEmailConfirmationCode(request.Email, password, code);
         
         await _userManager.AddToRoleAsync(user, request.Role);
         

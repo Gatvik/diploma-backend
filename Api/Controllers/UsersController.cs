@@ -72,7 +72,7 @@ public class UsersController : ControllerBase
     /// <para>Gets user information by UID in JWT</para>
     /// </remarks>
     [Authorize]
-    [HttpGet]
+    [HttpGet("self")]
     public async Task<ActionResult> GetSelf()
     {
         return Ok(await _mediator.Send(new GetSelfQuery()));
@@ -80,22 +80,16 @@ public class UsersController : ControllerBase
     
     /// <remarks>
     /// <para>Allowed roles: Manager, Administrator, InventoryManager</para>
-    /// <para>Gets user information by provided id</para>
+    /// <para>When "id" in query provided, than returns 1 user by id</para>
+    /// <para>When not, returns all users</para>
     /// </remarks>
     [AuthorizeEnums(Roles.Manager, Roles.Administrator, Roles.InventoryManager)]
-    [HttpGet("{userId:guid}")]
-    public async Task<ActionResult> GetById([FromRoute] Guid userId)
+    [HttpGet]
+    public async Task<ActionResult> Get([FromQuery] Guid? id)
     {
-        return Ok(await _mediator.Send(new GetUserByIdQuery {UserId = userId}));
-    }
-    
-    /// <remarks>
-    /// <para>Allowed roles: Manager, Administrator, InventoryManager</para>
-    /// </remarks>
-    [AuthorizeEnums(Roles.Manager, Roles.Administrator, Roles.InventoryManager)]
-    [HttpGet("all")]
-    public async Task<ActionResult> GetAll()
-    {
-        return Ok(await _mediator.Send(new GetAllUsersQuery()));
+        if (id is null)
+            return Ok(await _mediator.Send(new GetAllUsersQuery()));
+        
+        return Ok(await _mediator.Send(new GetUserByIdQuery {UserId = id.Value}));
     }
 }
