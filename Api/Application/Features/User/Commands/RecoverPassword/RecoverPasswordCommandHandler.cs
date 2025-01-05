@@ -26,7 +26,7 @@ public class RecoverPasswordCommandHandler : IRequestHandler<RecoverPasswordComm
         var code = await _userManager.GeneratePasswordResetTokenAsync(user);
         // TODO: Enable emails
         Console.WriteLine(code);
-        //await _emailService.SendPasswordRecoveryCode(user.Email!, code);
+        await _emailService.SendPasswordRecoveryCode(user.Email!, code);
 
         return Unit.Value;
     }
