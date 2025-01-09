@@ -4,9 +4,9 @@ using AutoMapper;
 
 namespace Api.Application.MappingProfiles;
 
-public class AppUserMappingProfile : Profile
+public class UserMappingProfile : Profile
 {
-    public AppUserMappingProfile()
+    public UserMappingProfile()
     {
         CreateMap<User, UserDto>();
     }

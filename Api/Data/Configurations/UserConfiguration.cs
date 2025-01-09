@@ -24,6 +24,20 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 FirstName = "Admin",
                 LastName = "Admin",
                 Sex = "male"
+            },
+            new User
+            {
+                Id = Guid.Parse("a9aebd65-e077-4d28-bb62-314428739789"),
+                Email = "manager@localhost.com",
+                NormalizedEmail = "MANAGER@LOCALHOST.COM",
+                UserName = "manager@localhost.com",
+                NormalizedUserName = "MANAGER@LOCALHOST.COM",
+                PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
+                EmailConfirmed = true,
+                FirstName = "Manager",
+                LastName = "Manager",
+                Sex = "male"
             }
         );
     }

@@ -1,5 +1,6 @@
 ﻿using Api.Application.Attributes;
 using Api.Application.Features.AssignmentToUser.Commands.Create;
+using Api.Application.Features.AssignmentToUser.Commands.Delete;
 using Api.Application.Features.AssignmentToUser.Commands.MarkAsCompleted;
 using Api.Application.Features.AssignmentToUser.Queries.GetAll;
 using Api.Application.Features.AssignmentToUser.Queries.GetAllByUserEmail;
@@ -38,6 +39,16 @@ public class AssignmentsToUsersController : ControllerBase
     [HttpPut("markAsCompleted")]
     [AuthorizeEnums(Roles.Housemaid, Roles.Technician)]
     public async Task<ActionResult<Unit>> MarkAsCompleted(MarkAssignmentAsCompletedQuery request)
+    {
+        return Ok(await _mediator.Send(request));
+    }
+
+    /// <remarks>
+    /// Allowed roles: Manager
+    /// </remarks>
+    [HttpDelete]
+    [AuthorizeEnums(Roles.Manager)]
+    public async Task<ActionResult<Unit>> Delete(DeleteAssignmentToUserCommand request)
     {
         return Ok(await _mediator.Send(request));
     }

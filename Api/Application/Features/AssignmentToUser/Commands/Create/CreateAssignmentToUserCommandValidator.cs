@@ -36,7 +36,7 @@ public class CreateAssignmentToUserCommandValidator : AbstractValidator<CreateAs
         RuleFor(atu => atu)
             .CustomAsync(async (atu, context, cancellationToken) =>
             {
-                bool isTimeAvailable = await IsTimeAvailableForUser(atu.UserId, atu.StartTime, atu.EndTime);
+                bool isTimeAvailable = await IsTimeNotOverlapped(atu.UserId, atu.StartTime, atu.EndTime);
                 if (!isTimeAvailable)
                 {
                     context.AddFailure("Time", "The time to complete this assignment overlaps with another assignment");
@@ -49,7 +49,37 @@ public class CreateAssignmentToUserCommandValidator : AbstractValidator<CreateAs
                 {
                     context.AddFailure("Role", "This assignment cannot be performed by a user with this role");
                 }
+            })
+            .CustomAsync(async (atu, context, cancellationToken) =>
+            {
+                bool isTimeCorrect = IsTimeCorrect(atu.StartTime, atu.EndTime);
+                if (!isTimeCorrect)
+                {
+                    context.AddFailure("Time", "A task can only affect one day and can be scheduled from 8:00 to 22:00");
+                }
+            })
+            .CustomAsync(async (atu, context, cancellationToken) =>
+            {
+                bool isTimeCorrect = IsStartTimeGreaterThenEndTime(atu.StartTime, atu.EndTime);
+                if (isTimeCorrect)
+                {
+                    context.AddFailure("Time", "Start time can not be greater then or equals to end time");
+                }
             });
+    }
+
+    private bool IsStartTimeGreaterThenEndTime(DateTime startTime, DateTime endTime)
+    {
+        return startTime > endTime || startTime == endTime;
+    }
+
+    private bool IsTimeCorrect(DateTime startTime, DateTime endTime)
+    {
+        bool isTheSameDay = startTime.DayOfWeek == endTime.DayOfWeek;
+        bool isStartTimeCorrect = startTime.TimeOfDay >= new TimeSpan(8, 0, 0);
+        bool isEndTimeCorrect = endTime.TimeOfDay <= new TimeSpan(21, 59, 59);
+
+        return isTheSameDay && isStartTimeCorrect && isEndTimeCorrect;
     }
 
     private async Task<bool> IsRoleAllowed(Guid userId, Guid assignmentId)
@@ -66,7 +96,7 @@ public class CreateAssignmentToUserCommandValidator : AbstractValidator<CreateAs
         return assignment.Role.Name == userRole;
     }
 
-    private async Task<bool> IsTimeAvailableForUser(Guid userId, DateTime startTime, DateTime endTime)
+    private async Task<bool> IsTimeNotOverlapped(Guid userId, DateTime startTime, DateTime endTime)
     {
         var assignments = await _assignmentToUserRepository.GetAllByUserId(userId);
         return !assignments.Any(a => startTime < a.EndTime && endTime > a.StartTime);

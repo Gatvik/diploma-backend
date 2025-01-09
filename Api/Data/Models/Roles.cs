@@ -6,7 +6,5 @@ public enum Roles
     Administrator,
     Technician,
     Housemaid,
-    InventoryManager,
-    
-    
+    InventoryManager
 }

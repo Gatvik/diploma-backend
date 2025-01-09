@@ -17,7 +17,10 @@ public class RolesController : ControllerBase
     {
         _mediator = mediator;
     }
-
+    
+    /// <remarks>
+    /// Allowed roles: any (except non-authorized)
+    /// </remarks>
     [HttpGet]
     public async Task<ActionResult<string[]>> GetAll([FromQuery] string? roleName)
     {
