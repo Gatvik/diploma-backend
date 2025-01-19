@@ -1,18 +1,15 @@
 ﻿using Api.Application.Contracts.Persistence;
 using Api.Application.Exceptions;
-using AutoMapper;
 using MediatR;
 
 namespace Api.Application.Features.Item.Commands.Update;
 
 public class UpdateItemCommandHandler : IRequestHandler<UpdateItemCommand, Unit>
 {
-    private readonly IMapper _mapper;
     private readonly IItemRepository _itemRepository;
 
-    public UpdateItemCommandHandler(IMapper mapper, IItemRepository itemRepository)
+    public UpdateItemCommandHandler(IItemRepository itemRepository)
     {
-        _mapper = mapper;
         _itemRepository = itemRepository;
     }
     
@@ -28,9 +25,10 @@ public class UpdateItemCommandHandler : IRequestHandler<UpdateItemCommand, Unit>
         if (!validationResult.IsValid)
             throw new BadRequestException(validationResult);
 
-        var newItem = _mapper.Map<Domain.Item>(request);
+        item.Name = request.Name;
+        item.MinimumStockQuantity = request.MinimumStockQuantity;
         
-        await _itemRepository.UpdateAsync(newItem);
+        await _itemRepository.UpdateAsync(item);
         return Unit.Value;
     }
 }
