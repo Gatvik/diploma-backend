@@ -68,7 +68,7 @@ public class ItemsController : ControllerBase
     /// Allowed roles: InventoryManager
     /// </remarks>
     [HttpDelete]
-    [AuthorizeEnums(Roles.Administrator)]
+    [AuthorizeEnums(Roles.InventoryManager)]
     public async Task<ActionResult<Unit>> Delete(Guid itemId)
     {
         return Ok(await _mediator.Send(new DeleteItemCommand { ItemId = itemId }));
