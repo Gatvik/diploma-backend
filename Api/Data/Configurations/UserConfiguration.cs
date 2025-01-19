@@ -38,6 +38,48 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 FirstName = "Manager",
                 LastName = "Manager",
                 Sex = "male"
+            },
+            new User
+            {
+                Id = Guid.Parse("181eae58-202d-4757-86e2-578df1743d6c"),
+                Email = "inventorymanager@localhost.com",
+                NormalizedEmail = "INVENTORYMANAGER@LOCALHOST.COM",
+                UserName = "inventorymanager@localhost.com",
+                NormalizedUserName = "INVENTORYMANAGER@LOCALHOST.COM",
+                PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
+                EmailConfirmed = true,
+                FirstName = "InventoryManager",
+                LastName = "InventoryManager",
+                Sex = "male"
+            },
+            new User
+            {
+                Id = Guid.Parse("d525eef7-5569-4b54-8b6d-2f796bc9ba9a"),
+                Email = "housemaid@localhost.com",
+                NormalizedEmail = "HOUSEMAID@LOCALHOST.COM",
+                UserName = "housemaid@localhost.com",
+                NormalizedUserName = "HOUSEMAID@LOCALHOST.COM",
+                PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
+                EmailConfirmed = true,
+                FirstName = "Housemaid",
+                LastName = "Housemaid",
+                Sex = "female"
+            },
+            new User
+            {
+                Id = Guid.Parse("217d332c-ef08-4f06-86b3-68df9eb48e73"),
+                Email = "technician@localhost.com",
+                NormalizedEmail = "TECHNICIAN@LOCALHOST.COM",
+                UserName = "technician@localhost.com",
+                NormalizedUserName = "TECHNICIAN@LOCALHOST.COM",
+                PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
+                EmailConfirmed = true,
+                FirstName = "Technician",
+                LastName = "Technician",
+                Sex = "male"
             }
         );
     }

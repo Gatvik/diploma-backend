@@ -19,6 +19,21 @@ public class UserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<G
             {
                 RoleId = Guid.Parse("cac43a6e-f7bb-4448-baaf-1add431ccbbf"), // MANAGER
                 UserId = Guid.Parse("a9aebd65-e077-4d28-bb62-314428739789")
+            },
+            new IdentityUserRole<Guid>
+            {
+                RoleId = Guid.Parse("36f579e8-2f52-473f-91f2-550331d81d04"), // INVENTORYMANAGER
+                UserId = Guid.Parse("181eae58-202d-4757-86e2-578df1743d6c")
+            },
+            new IdentityUserRole<Guid>
+            {
+                RoleId = Guid.Parse("9beb8da7-4160-4db7-9982-05604a4e51d5"), // HOUSEMAID
+                UserId = Guid.Parse("d525eef7-5569-4b54-8b6d-2f796bc9ba9a")
+            },
+            new IdentityUserRole<Guid>
+            {
+                RoleId = Guid.Parse("a0f845d1-2680-459d-981a-d40b176c5ca8"), // TECHNICIAN
+                UserId = Guid.Parse("217d332c-ef08-4f06-86b3-68df9eb48e73")
             }
         );
     }
