@@ -18,6 +18,23 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         return await Context.Set<T>().AsNoTracking().ToListAsync();
     }
+
+    public IQueryable<T> GetAllAsQueryable()
+    {
+        return Context.Set<T>().AsNoTracking();
+    }
+
+    public IQueryable<T> GetAllAsQueryable(params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = Context.Set<T>().AsNoTracking();
+        
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return query;
+    }
     
     public async Task<IReadOnlyList<T>> GetAllAsync(params Expression<Func<T, object>>[] includes)
     {

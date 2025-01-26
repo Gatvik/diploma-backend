@@ -5,6 +5,8 @@ namespace Api.Application.Contracts.Persistence;
 
 public interface IGenericRepository<T> where T : BaseEntity
 {
+    IQueryable<T> GetAllAsQueryable();
+    IQueryable<T> GetAllAsQueryable(params Expression<Func<T, object>>[] includes);
     Task<IReadOnlyList<T>> GetAllAsync();
     Task<IReadOnlyList<T>> GetAllByPredicateAsync(Expression<Func<T, bool>> predicate);
     Task<T?> GetByIdAsync(Guid id);

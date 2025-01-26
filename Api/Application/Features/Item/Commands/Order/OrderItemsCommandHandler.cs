@@ -27,7 +27,7 @@ public class OrderItemsCommandHandler : IRequestHandler<OrderItemsCommand, Unit>
             throw new BadRequestException(validationResult);
 
         List<Domain.Item> itemsToUpdate = new List<Domain.Item>(request.ItemsToOrder.Length);
-        List<ItemHistory> itemHistories = new List<ItemHistory>(request.ItemsToOrder.Length);
+        List<Domain.ItemHistory> itemHistories = new List<Domain.ItemHistory>(request.ItemsToOrder.Length);
         var inventoryManagerId = _userService.UserId;
         foreach (var orderItem in request.ItemsToOrder)
         {
@@ -37,7 +37,7 @@ public class OrderItemsCommandHandler : IRequestHandler<OrderItemsCommand, Unit>
 
             item.Quantity += orderItem.Quantity;
             
-            var itemHistory = new ItemHistory
+            var itemHistory = new Domain.ItemHistory
             {
                 DateOfAction = DateTime.UtcNow,
                 ItemId = item.Id,

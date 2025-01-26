@@ -4,6 +4,7 @@ using Api.Application.Features.AssignmentToUser.Commands.Delete;
 using Api.Application.Features.AssignmentToUser.Commands.MarkAsCompleted;
 using Api.Application.Features.AssignmentToUser.Queries.GetAll;
 using Api.Application.Features.AssignmentToUser.Queries.GetAllByUserEmail;
+using Api.Application.Features.AssignmentToUser.Queries.GetAllOwn;
 using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -66,5 +67,16 @@ public class AssignmentsToUsersController : ControllerBase
             return Ok(await _mediator.Send(new GetAllAssignmentsToUserQuery()));
             
         return Ok(await _mediator.Send(new GetAllAssignmentsByUserEmailQuery {Email = email}));
+    }
+    
+    /// <remarks>
+    /// Allowed roles: Technician, Housemaid
+    /// <para>By user id in JWT finds all his tasks</para>
+    /// </remarks>
+    [HttpGet("allOwn")]
+    [AuthorizeEnums(Roles.Technician, Roles.Housemaid)]
+    public async Task<ActionResult<Unit>> GetAllOwn()
+    {
+        return Ok(await _mediator.Send(new GetAllOwnAssignmentsQuery()));
     }
 }

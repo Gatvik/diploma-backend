@@ -10,6 +10,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         var hasher = new PasswordHasher<User>();
+        // PasswordHash = hasher.HashPassword(null, "P@ssword1"),
         builder.HasData(
             new User
             {
@@ -18,7 +19,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 NormalizedEmail = "ADMIN@LOCALHOST.COM",
                 UserName = "admin@localhost.com",
                 NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                PasswordHash = "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==",
                 SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
                 EmailConfirmed = true,
                 FirstName = "Admin",
@@ -32,7 +33,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 NormalizedEmail = "MANAGER@LOCALHOST.COM",
                 UserName = "manager@localhost.com",
                 NormalizedUserName = "MANAGER@LOCALHOST.COM",
-                PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                PasswordHash = "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==",
                 SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
                 EmailConfirmed = true,
                 FirstName = "Manager",
@@ -46,7 +47,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 NormalizedEmail = "INVENTORYMANAGER@LOCALHOST.COM",
                 UserName = "inventorymanager@localhost.com",
                 NormalizedUserName = "INVENTORYMANAGER@LOCALHOST.COM",
-                PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                PasswordHash = "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==",
                 SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
                 EmailConfirmed = true,
                 FirstName = "InventoryManager",
@@ -60,7 +61,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 NormalizedEmail = "HOUSEMAID@LOCALHOST.COM",
                 UserName = "housemaid@localhost.com",
                 NormalizedUserName = "HOUSEMAID@LOCALHOST.COM",
-                PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                PasswordHash = "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==",
                 SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
                 EmailConfirmed = true,
                 FirstName = "Housemaid",
@@ -74,7 +75,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 NormalizedEmail = "TECHNICIAN@LOCALHOST.COM",
                 UserName = "technician@localhost.com",
                 NormalizedUserName = "TECHNICIAN@LOCALHOST.COM",
-                PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                PasswordHash = "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==",
                 SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
                 EmailConfirmed = true,
                 FirstName = "Technician",

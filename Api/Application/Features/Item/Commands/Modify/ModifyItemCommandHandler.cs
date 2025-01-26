@@ -46,7 +46,7 @@ public class ModifyItemCommandHandler : IRequestHandler<ModifyItemCommand, Modif
         item.Quantity = resultAmount;
         await _itemRepository.UpdateAsync(item);
 
-        var itemHistory = new ItemHistory
+        var itemHistory = new Domain.ItemHistory
         {
             DateOfAction = DateTime.UtcNow,
             ItemId = item.Id,
