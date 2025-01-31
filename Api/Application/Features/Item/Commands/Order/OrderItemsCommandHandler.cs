@@ -31,7 +31,7 @@ public class OrderItemsCommandHandler : IRequestHandler<OrderItemsCommand, Unit>
         var inventoryManagerId = _userService.UserId;
         foreach (var orderItem in request.ItemsToOrder)
         {
-            var item = await _itemRepository.GetByPredicateAsync(i => i.Name == orderItem.Name);
+            var item = await _itemRepository.GetSingleByPredicateAsync(i => i.Name == orderItem.Name);
             if (item is null)
                 throw new NotFoundException($"Item {orderItem.Name} was not found");
 

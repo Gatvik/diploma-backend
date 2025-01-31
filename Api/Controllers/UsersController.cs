@@ -68,6 +68,26 @@ public class UsersController : ControllerBase
     }
 
     /// <remarks>
+    /// <para>Allowed roles: Manager, Administrator, InventoryManager</para>
+    /// <para>When "id" in query provided, than returns 1 user by id</para>
+    /// <para>When not, then PAGINATION DATA must be provided. Returns all paginated users</para>
+    /// <para>Default page size - 20, default page number - 1</para>
+    /// </remarks>
+    [AuthorizeEnums(Roles.Manager, Roles.Administrator, Roles.InventoryManager)]
+    [HttpGet]
+    public async Task<ActionResult> Get([FromQuery] Guid? id, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
+    {
+        if (id is not null)
+            return Ok(await _mediator.Send(new GetUserByIdQuery {UserId = id.Value}));
+        
+        return Ok(await _mediator.Send(new GetAllUsersQuery
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        }));
+    }
+
+    /// <remarks>
     /// <para>Allowed roles: any (except non-authorized)</para>
     /// <para>Gets user information by UID in JWT</para>
     /// </remarks>
@@ -76,20 +96,5 @@ public class UsersController : ControllerBase
     public async Task<ActionResult> GetSelf()
     {
         return Ok(await _mediator.Send(new GetSelfQuery()));
-    }
-    
-    /// <remarks>
-    /// <para>Allowed roles: Manager, Administrator, InventoryManager</para>
-    /// <para>When "id" in query provided, than returns 1 user by id</para>
-    /// <para>When not, returns all users</para>
-    /// </remarks>
-    [AuthorizeEnums(Roles.Manager, Roles.Administrator, Roles.InventoryManager)]
-    [HttpGet]
-    public async Task<ActionResult> Get([FromQuery] Guid? id)
-    {
-        if (id is null)
-            return Ok(await _mediator.Send(new GetAllUsersQuery()));
-        
-        return Ok(await _mediator.Send(new GetUserByIdQuery {UserId = id.Value}));
     }
 }

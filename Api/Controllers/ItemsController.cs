@@ -77,15 +77,21 @@ public class ItemsController : ControllerBase
     /// <remarks>
     /// <para>Allowed roles: any (except non-authorized)</para>
     /// <para>When "name" in query provided, than returns 1 item by name</para>
-    /// <para>When not, returns all items</para>
+    /// <para>When not, then PAGINATION DATA must be provided. Returns all paginated items</para>
+    /// <para>Default page size - 20, default page number - 1</para>
     /// </remarks>
     [HttpGet]
-    public async Task<ActionResult<List<ItemDto>>> Get([FromQuery] string? name)
+    public async Task<ActionResult<List<ItemDto>>> Get([FromQuery] string? name, 
+        [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
     {
-        if(name is null)
-            return Ok(await _mediator.Send(new GetAllItemsQuery()));
+        if(name is not null)
+            return Ok(await _mediator.Send(new GetItemByNameQuery { ItemName = name }));
         
-        return Ok(await _mediator.Send(new GetItemByNameQuery { ItemName = name }));
+        return Ok(await _mediator.Send(new GetAllItemsQuery
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        }));
     }
     
     /// <remarks>

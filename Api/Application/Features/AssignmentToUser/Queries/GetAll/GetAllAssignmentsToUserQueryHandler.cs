@@ -1,4 +1,5 @@
-﻿using Api.Application.Contracts.Persistence;
+﻿using System.Linq.Expressions;
+using Api.Application.Contracts.Persistence;
 using Api.Application.Exceptions;
 using Api.Application.Features.AssignmentToUser.Common;
 using AutoMapper;
@@ -19,7 +20,11 @@ public class GetAllAssignmentsToUserQueryHandler : IRequestHandler<GetAllAssignm
     
     public async Task<List<AssignmentToUserDto>> Handle(GetAllAssignmentsToUserQuery request, CancellationToken cancellationToken)
     {
-        var assignments = await _assignmentToUserRepository.GetAllAsync(incl => incl.Assignment.Role, incl => incl.User);
+        var assignments = await _assignmentToUserRepository.GetAllAsync(
+            orderBy: x => x.StartTime,
+            pageNumber: request.PageNumber, pageSize: request.PageSize, 
+            includes: new Expression<Func<Domain.AssignmentToUser, object>>[]{ x => x.Assignment.Role, x => x.User });
+        
         if (assignments.Count == 0)
             throw new NotFoundException();
 

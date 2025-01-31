@@ -31,8 +31,9 @@ public class GetAllOwnAssignmentsQueryHandler : IRequestHandler<GetAllOwnAssignm
         if (user is null)
             throw new NotFoundException("User not found");
 
-        var userAssignments = await _assignmentToUserRepository.GetAllByPredicateAsync(a 
-            => a.UserId == user.Id, includes => includes.Assignment);
+        var userAssignments = await _assignmentToUserRepository.GetAllByPredicateAsync(
+            predicate: a => a.UserId == user.Id, 
+            includes: x => x.Assignment);
 
         return _mapper.Map<List<AssignmentToUserDto>>(userAssignments);
     }

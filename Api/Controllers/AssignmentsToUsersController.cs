@@ -56,17 +56,23 @@ public class AssignmentsToUsersController : ControllerBase
     
     /// <remarks>
     /// Allowed roles: Manager
-    /// <para>When "email" in query provided, than returns all assignments to users found by user's email</para>
-    /// <para>When not, returns all all assignments to users</para>
+    /// <para>When "email" in query is provided, than returns all assignments to users found by user's email</para>
+    /// <para>When not, then PAGINATION DATA must be provided. Returns all paginated assignments to users</para>
+    /// <para>Default page size - 20, default page number - 1</para>
     /// </remarks>
     [HttpGet]
     [AuthorizeEnums(Roles.Manager)]
-    public async Task<ActionResult<Unit>> GetAll([FromQuery] string? email)
+    public async Task<ActionResult<Unit>> GetAll([FromQuery] string? email, 
+        [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
     {
-        if (email is null)
-            return Ok(await _mediator.Send(new GetAllAssignmentsToUserQuery()));
-            
-        return Ok(await _mediator.Send(new GetAllAssignmentsByUserEmailQuery {Email = email}));
+        if (email is not null)
+            return Ok(await _mediator.Send(new GetAllAssignmentsByUserEmailQuery {Email = email}));
+        
+        return Ok(await _mediator.Send(new GetAllAssignmentsToUserQuery
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        }));
     }
     
     /// <remarks>

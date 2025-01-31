@@ -22,7 +22,7 @@ public class UpdateItemCommandValidator : AbstractValidator<UpdateItemCommand>
 
     private async Task<bool> MustBeUnique(UpdateItemCommand command, string name, CancellationToken ct)
     {
-        var item = await _itemRepository.GetByPredicateAsync(i => i.Name == name);
+        var item = await _itemRepository.GetSingleByPredicateAsync(i => i.Name == name);
         if (item is not null)
         {
             var itemById = await _itemRepository.GetByIdAsync(command.Id);

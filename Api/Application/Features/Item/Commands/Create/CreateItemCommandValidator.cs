@@ -26,7 +26,7 @@ public class CreateItemCommandValidator : AbstractValidator<CreateItemCommand>
 
     private async Task<bool> MustBeUnique(string name, CancellationToken ct)
     {
-        var item = await _itemRepository.GetByPredicateAsync(i => i.Name == name);
+        var item = await _itemRepository.GetSingleByPredicateAsync(i => i.Name == name);
 
         return item is null;
     }

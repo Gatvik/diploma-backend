@@ -55,8 +55,12 @@ public class AssignmentsController : ControllerBase
     /// Allowed roles: Manager
     /// </remarks>
     [HttpGet]
-    public async Task<ActionResult<List<AssignmentDto>>> GetAll()
+    public async Task<ActionResult<List<AssignmentDto>>> GetAll(int pageSize, int pageNumber)
     {
-        return Ok(await _mediator.Send(new GetAllAssignmentsQuery()));
+        return Ok(await _mediator.Send(new GetAllAssignmentsQuery
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        }));
     }
 }

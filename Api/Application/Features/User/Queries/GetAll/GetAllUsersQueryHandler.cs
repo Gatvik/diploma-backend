@@ -21,7 +21,9 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<Us
     
     public async Task<List<UserDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
-        var users = await _userManager.Users.ToListAsync(cancellationToken: cancellationToken);
+        var users = await _userManager.Users
+            .Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize)
+            .ToListAsync(cancellationToken: cancellationToken);
         var userWithRolesList = new List<UserDto>();
 
         foreach (var user in users)

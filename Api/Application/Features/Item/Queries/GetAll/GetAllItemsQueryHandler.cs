@@ -19,7 +19,8 @@ public class GetAllItemsQueryHandler : IRequestHandler<GetAllItemsQuery, List<It
     
     public async Task<List<ItemDto>> Handle(GetAllItemsQuery request, CancellationToken cancellationToken)
     {
-        var items = await _itemRepository.GetAllAsync();
+        var items = await _itemRepository.GetAllAsync(pageNumber: request.PageNumber, pageSize: request.PageSize, 
+            orderBy: x => x.Name);
 
         if (items.Count <= 0)
             throw new NotFoundException();

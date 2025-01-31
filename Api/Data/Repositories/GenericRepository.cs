@@ -14,17 +14,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         Context = context;
     }
     
-    public async Task<IReadOnlyList<T>> GetAllAsync()
-    {
-        return await Context.Set<T>().AsNoTracking().ToListAsync();
-    }
-
-    public IQueryable<T> GetAllAsQueryable()
-    {
-        return Context.Set<T>().AsNoTracking();
-    }
-
-    public IQueryable<T> GetAllAsQueryable(params Expression<Func<T, object>>[] includes)
+    public async Task<IReadOnlyList<T>> GetAllAsync(
+        int? pageNumber = null, 
+        int? pageSize = null, 
+        Expression<Func<T, object>>? orderBy = null, 
+        bool descending = false, 
+        params Expression<Func<T, object>>[] includes)
     {
         IQueryable<T> query = Context.Set<T>().AsNoTracking();
         
@@ -32,29 +27,23 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         {
             query = query.Include(include);
         }
-
-        return query;
-    }
-    
-    public async Task<IReadOnlyList<T>> GetAllAsync(params Expression<Func<T, object>>[] includes)
-    {
-        IQueryable<T> query = Context.Set<T>().AsNoTracking();
-
-        foreach (var include in includes)
+        
+        if (orderBy != null)
         {
-            query = query.Include(include);
+            query = descending ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);
         }
+        
+        if (pageNumber is not null && pageSize is not null)
+            query = query.Skip((pageNumber.Value - 1) * pageSize.Value).Take(pageSize.Value);
 
         return await query.ToListAsync();
-    }
-
-    public async Task<IReadOnlyList<T>> GetAllByPredicateAsync(Expression<Func<T, bool>> predicate)
-    {
-        return await Context.Set<T>().AsNoTracking().Where(predicate).ToListAsync();
     }
     
     public async Task<IReadOnlyList<T>> GetAllByPredicateAsync(
         Expression<Func<T, bool>> predicate,
+        int? pageNumber = null, int? pageSize = null,
+        Expression<Func<T, object>>? orderBy = null, 
+        bool descending = false, 
         params Expression<Func<T, object>>[] includes)
     {
         IQueryable<T> query = Context.Set<T>().AsNoTracking();
@@ -63,13 +52,16 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         {
             query = query.Include(include);
         }
+        
+        if (orderBy != null)
+        {
+            query = descending ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);
+        }
+        
+        if (pageNumber is not null && pageSize is not null)
+            query = query.Where(predicate).Skip((pageNumber.Value - 1) * pageSize.Value).Take(pageSize.Value);
 
-        return await query.Where(predicate).ToListAsync();
-    }
-
-    public Task<T?> GetByIdAsync(Guid id)
-    {
-        return GetByPredicateAsync(q => q.Id == id);
+        return await query.ToListAsync();
     }
     
     public async Task<T?> GetByIdAsync(Guid id, params Expression<Func<T, object>>[] includes)
@@ -83,13 +75,8 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 
         return await query.FirstOrDefaultAsync(entity => entity.Id == id);
     }
-
-    public Task<T?> GetByPredicateAsync(Expression<Func<T, bool>> predicate)
-    {
-        return Context.Set<T>().AsNoTracking().FirstOrDefaultAsync(predicate);
-    }
     
-    public async Task<T?> GetByPredicateAsync(
+    public async Task<T?> GetSingleByPredicateAsync(
         Expression<Func<T, bool>> predicate,
         params Expression<Func<T, object>>[] includes)
     {

@@ -32,7 +32,7 @@ public class UpdateAssignmentCommandValidator : AbstractValidator<UpdateAssignme
 
     private async Task<bool> IsUnique(UpdateAssignmentCommand command, string name, CancellationToken ct)
     {
-        var assignment = await _assignmentRepository.GetByPredicateAsync(i => i.Name == name);
+        var assignment = await _assignmentRepository.GetSingleByPredicateAsync(i => i.Name == name);
         if (assignment is not null)
         {
             var itemById = await _assignmentRepository.GetByIdAsync(command.Id);

@@ -20,8 +20,9 @@ public class GetAllAssignmentsByUserEmailQueryHandler : IRequestHandler<GetAllAs
     public async Task<List<AssignmentToUserDto>> Handle(GetAllAssignmentsByUserEmailQuery request, CancellationToken cancellationToken)
     {
         var assignments = await _assignmentToUserRepository
-            .GetAllByPredicateAsync(p => p.User.Email == request.Email, 
-            incl => incl.Assignment.Role);
+            .GetAllByPredicateAsync(predicate: p => p.User.Email == request.Email, 
+            includes: incl => incl.Assignment.Role);
+        
         if (assignments.Count <= 0)
             throw new NotFoundException();
         

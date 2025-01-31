@@ -1,4 +1,5 @@
 ﻿using Api.Application.Contracts.Persistence;
+using Api.Application.Exceptions;
 using Api.Application.Features.Assignment.Common;
 using AutoMapper;
 using MediatR;
@@ -18,7 +19,12 @@ public class GetAllAssignmentsQueryHandler : IRequestHandler<GetAllAssignmentsQu
     
     public async Task<List<AssignmentDto>> Handle(GetAllAssignmentsQuery request, CancellationToken cancellationToken)
     {
-        var assignments = await _assignmentRepository.GetAllAsync(a => a.Role);
+        var assignments = await _assignmentRepository.GetAllAsync(
+            pageSize: request.PageSize, pageNumber: request.PageNumber, 
+            includes: a => a.Role);
+
+        if (assignments.Count == 0)
+            throw new NotFoundException("Assignments not found");
 
         return _mapper.Map<List<AssignmentDto>>(assignments);
     }

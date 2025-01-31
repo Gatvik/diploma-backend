@@ -1,4 +1,5 @@
-﻿using Api.Application.Contracts.Persistence;
+﻿using System.Linq.Expressions;
+using Api.Application.Contracts.Persistence;
 using Api.Application.Features.ItemHistory.Common;
 using Api.Data.Repositories;
 using AutoMapper;
@@ -20,15 +21,11 @@ public class GetAllItemHistoriesWithPaginationQueryHandler : IRequestHandler<Get
 
     public async Task<List<ItemHistoryDto>> Handle(GetAllItemHistoriesWithPaginationQuery request, CancellationToken cancellationToken)
     {
-        var query = _itemHistoryRepository.GetAllAsQueryable(includes => includes.Item, 
-            includes => includes.User);
-        
-        var paginatedItemHistories = await query
-            .Skip((request.PageNumber - 1) * request.PageSize)
-            .Take(request.PageSize)
-            .OrderBy(r => r.DateOfAction)
-            .ToListAsync(cancellationToken);
+        var itemHistories = await _itemHistoryRepository.GetAllAsync(
+            pageSize: request.PageSize, pageNumber: request.PageNumber,
+            orderBy: r => r.DateOfAction, 
+            includes: new Expression<Func<Domain.ItemHistory, object>>[] { x => x.Item, x => x.User });
 
-        return _mapper.Map<List<ItemHistoryDto>>(paginatedItemHistories);
+        return _mapper.Map<List<ItemHistoryDto>>(itemHistories);
     }
 }
