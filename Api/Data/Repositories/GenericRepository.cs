@@ -64,9 +64,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         {
             query = descending ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);
         }
-        
+
         if (pageNumber is not null && pageSize is not null)
             query = query.Where(predicate).Skip((pageNumber.Value - 1) * pageSize.Value).Take(pageSize.Value);
+        else
+            query = query.Where(predicate);
 
         return await query.ToListAsync();
     }
