@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Application.Features.User.Queries.GetAll;
 
-public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<UserDto>>
+public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, GetAllUsersQueryResponse>
 {
     private readonly UserManager<Data.Models.User> _userManager;
     private readonly IMapper _mapper;
@@ -19,11 +19,12 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<Us
         _mapper = mapper;
     }
     
-    public async Task<List<UserDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+    public async Task<GetAllUsersQueryResponse> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
         var users = await _userManager.Users
             .Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize)
             .ToListAsync(cancellationToken: cancellationToken);
+        var count = _userManager.Users.Count();
         var userWithRolesList = new List<UserDto>();
 
         foreach (var user in users)
@@ -35,6 +36,12 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<Us
             userWithRolesList.Add(userDto);
         }
 
-        return userWithRolesList;
+        var response = new GetAllUsersQueryResponse
+        {
+            Users = userWithRolesList,
+            Count = count
+        };
+
+        return response;
     }
 }

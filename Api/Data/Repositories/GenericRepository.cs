@@ -13,6 +13,13 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         Context = context;
     }
+
+    public int Count()
+    {
+        IQueryable<T> set = Context.Set<T>().AsNoTracking();
+
+        return set.Count();
+    }
     
     public async Task<IReadOnlyList<T>> GetAllAsync(
         int? pageNumber = null, 

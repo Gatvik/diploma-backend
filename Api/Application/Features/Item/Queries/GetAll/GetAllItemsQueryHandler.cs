@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Api.Application.Features.Item.Queries.GetAll;
 
-public class GetAllItemsQueryHandler : IRequestHandler<GetAllItemsQuery, List<ItemDto>>
+public class GetAllItemsQueryHandler : IRequestHandler<GetAllItemsQuery, GetAllItemsQueryResponse>
 {
     private readonly IItemRepository _itemRepository;
     private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ public class GetAllItemsQueryHandler : IRequestHandler<GetAllItemsQuery, List<It
         _mapper = mapper;
     }
     
-    public async Task<List<ItemDto>> Handle(GetAllItemsQuery request, CancellationToken cancellationToken)
+    public async Task<GetAllItemsQueryResponse> Handle(GetAllItemsQuery request, CancellationToken cancellationToken)
     {
         var items = await _itemRepository.GetAllAsync(pageNumber: request.PageNumber, pageSize: request.PageSize, 
             orderBy: x => x.Name);
@@ -25,6 +25,12 @@ public class GetAllItemsQueryHandler : IRequestHandler<GetAllItemsQuery, List<It
         if (items.Count <= 0)
             throw new NotFoundException();
 
-        return _mapper.Map<List<ItemDto>>(items);
+        var response = new GetAllItemsQueryResponse
+        {
+            Items = _mapper.Map<List<ItemDto>>(items),
+            Count = _itemRepository.Count()
+        };
+        
+        return response;
     }
 }

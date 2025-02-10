@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Api.Application.Features.Assignment.Queries.GetAll;
 
-public class GetAllAssignmentsQueryHandler : IRequestHandler<GetAllAssignmentsQuery, List<AssignmentDto>>
+public class GetAllAssignmentsQueryHandler : IRequestHandler<GetAllAssignmentsQuery, GetAllAssignmentsQueryResponse>
 {
     private readonly IAssignmentRepository _assignmentRepository;
     private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ public class GetAllAssignmentsQueryHandler : IRequestHandler<GetAllAssignmentsQu
         _mapper = mapper;
     }
     
-    public async Task<List<AssignmentDto>> Handle(GetAllAssignmentsQuery request, CancellationToken cancellationToken)
+    public async Task<GetAllAssignmentsQueryResponse> Handle(GetAllAssignmentsQuery request, CancellationToken cancellationToken)
     {
         var assignments = await _assignmentRepository.GetAllAsync(
             pageSize: request.PageSize, pageNumber: request.PageNumber, 
@@ -26,6 +26,12 @@ public class GetAllAssignmentsQueryHandler : IRequestHandler<GetAllAssignmentsQu
         if (assignments.Count == 0)
             throw new NotFoundException("Assignments not found");
 
-        return _mapper.Map<List<AssignmentDto>>(assignments);
+        var response = new GetAllAssignmentsQueryResponse
+        {
+            Assignments = _mapper.Map<List<AssignmentDto>>(assignments),
+            Count = _assignmentRepository.Count()
+        };
+
+        return response;
     }
 }

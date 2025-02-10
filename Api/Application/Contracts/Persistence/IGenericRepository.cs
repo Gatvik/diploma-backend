@@ -5,6 +5,7 @@ namespace Api.Application.Contracts.Persistence;
 
 public interface IGenericRepository<T> where T : BaseEntity
 {
+    int Count();
     Task<IReadOnlyList<T>> GetAllAsync(int? pageNumber = null, int? pageSize = null, 
         Expression<Func<T, object>>? orderBy = null, 
         bool descending = false, 

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Api.Application.Features.Item.Queries.GetAll;
 
-public class GetAllItemsQuery : IRequest<List<ItemDto>>
+public class GetAllItemsQuery : IRequest<GetAllItemsQueryResponse>
 {
     public required int PageNumber { get; set; }
     public required int PageSize { get; set; }

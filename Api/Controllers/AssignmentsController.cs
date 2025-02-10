@@ -53,6 +53,7 @@ public class AssignmentsController : ControllerBase
     
     /// <remarks>
     /// Allowed roles: Manager
+    /// <para>PAGINATION DATA must be provided. Returns all paginated assignments to users</para>
     /// </remarks>
     [HttpGet]
     public async Task<ActionResult<List<AssignmentDto>>> GetAll(int pageSize, int pageNumber)

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Application.Features.ItemHistory.Queries.GetAllWithPagination;
 
-public class GetAllItemHistoriesWithPaginationQueryHandler : IRequestHandler<GetAllItemHistoriesWithPaginationQuery, List<ItemHistoryDto>>
+public class GetAllItemHistoriesWithPaginationQueryHandler : IRequestHandler<GetAllItemHistoriesWithPaginationQuery, GetAllItemHistoriesWithPaginationQueryResponse>
 {
     private readonly IItemHistoryRepository _itemHistoryRepository;
     private readonly IMapper _mapper;
@@ -19,13 +19,19 @@ public class GetAllItemHistoriesWithPaginationQueryHandler : IRequestHandler<Get
         _mapper = mapper;
     }
 
-    public async Task<List<ItemHistoryDto>> Handle(GetAllItemHistoriesWithPaginationQuery request, CancellationToken cancellationToken)
+    public async Task<GetAllItemHistoriesWithPaginationQueryResponse> Handle(GetAllItemHistoriesWithPaginationQuery request, CancellationToken cancellationToken)
     {
         var itemHistories = await _itemHistoryRepository.GetAllAsync(
             pageSize: request.PageSize, pageNumber: request.PageNumber,
             orderBy: r => r.DateOfAction, 
             includes: new Expression<Func<Domain.ItemHistory, object>>[] { x => x.Item, x => x.User });
 
-        return _mapper.Map<List<ItemHistoryDto>>(itemHistories);
+        var response = new GetAllItemHistoriesWithPaginationQueryResponse
+        {
+            ItemHistories = _mapper.Map<List<ItemHistoryDto>>(itemHistories),
+            Count = _itemHistoryRepository.Count()
+        };
+
+        return response;
     }
 }
