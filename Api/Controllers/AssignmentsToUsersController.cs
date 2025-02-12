@@ -6,6 +6,7 @@ using Api.Application.Features.AssignmentToUser.Queries.GetAll;
 using Api.Application.Features.AssignmentToUser.Queries.GetAllByDate;
 using Api.Application.Features.AssignmentToUser.Queries.GetAllByUserEmail;
 using Api.Application.Features.AssignmentToUser.Queries.GetAllOwn;
+using Api.Application.Features.AssignmentToUser.Queries.GetAllOwnByDate;
 using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -58,7 +59,7 @@ public class AssignmentsToUsersController : ControllerBase
     /// <remarks>
     /// Allowed roles: Manager
     /// <para>When "email" in query is provided, than returns all assignments to users found by user's email</para>
-    /// <para>When "email", "month" and "year" in query is provided, than returns all assignments to users found by user's email and filtered by date</para>
+    /// <para>When "email", "month" and "year" in query are provided, than returns all assignments to users found by user's email and filtered by date</para>
     /// <para>Otherwise PAGINATION DATA must be provided. Returns all paginated assignments to users</para>
     /// <para>Default page size - 20, default page number - 1</para>
     /// </remarks>
@@ -85,12 +86,16 @@ public class AssignmentsToUsersController : ControllerBase
     
     /// <remarks>
     /// Allowed roles: Technician, Housemaid
-    /// <para>By user id in JWT finds all his tasks</para>
+    /// <para>When "month" and "year" in query are provided, than returns all user's assignments found by user ID in JWT and filtered by date</para>
+    /// <para>Otherwise, by user id in JWT finds all his tasks</para>
     /// </remarks>
     [HttpGet("allOwn")]
     [AuthorizeEnums(Roles.Technician, Roles.Housemaid)]
-    public async Task<ActionResult<Unit>> GetAllOwn()
+    public async Task<ActionResult<Unit>> GetAllOwn([FromQuery] int? month, [FromQuery] int? year)
     {
+        if (month is not null && year is not null)
+            return Ok(await _mediator.Send(new GetAllOwnAssignmentsByDateQuery { Month = month.Value, Year = year.Value }));
+        
         return Ok(await _mediator.Send(new GetAllOwnAssignmentsQuery()));
     }
 }
