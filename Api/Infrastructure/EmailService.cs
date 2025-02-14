@@ -31,17 +31,17 @@ public class EmailService : IEmailService
             .Property(Send.FromEmail, _emailSettings.FromEmail)
             .Property(Send.FromName, _emailSettings.FromName)
             .Property(Send.Subject, "Your password recovery code")
-            .Property(Send.HtmlPart, $"""
-                                      <center>
-                                      <h1>
-                                      You have been requested reset of your password on the Hotel Management System service.
-                                      </h1>
-                                      <h3>
-                                      Your password recovery code: <span style="font-size:10px;font-style:italic">{code}</span><br/>
-                                      If you didn't request it, just ignore this email.
-                                      </h3>
-                                      </center>
-                                      """
+            .Property(Send.HtmlPart, $$"""
+                                       <center>
+                                       <h1>
+                                       You have been requested reset of your password on the Hotel Management System service.
+                                       </h1>
+                                       <h3>
+                                       Click on that link: <a href="https://nirvana-dev.vercel.app/login/recover-password?code={{code}}&email={{email}}">LINK</a><br/>
+                                       If you didn't request it, just ignore this email.
+                                       </h3>
+                                       </center>
+                                       """
                 )
             .Property(Send.Recipients, new JArray {
                 new JObject {
