@@ -3,6 +3,7 @@ using System.Text;
 using Api.Application.Contracts.Identity;
 using Api.Application.Contracts.Infrastructure;
 using Api.Application.Contracts.Persistence;
+using Api.Application.Hubs;
 using Api.Application.Services;
 using Api.Data;
 using Api.Data.Models;
@@ -57,6 +58,22 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!))
 
     };
+    
+    o.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+
+            // Если запрос идёт к SignalR Hub, извлеките токен из query string
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/api/v1/notificationHub"))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
 
 #endregion
@@ -74,14 +91,18 @@ builder.Services.AddScoped(typeof(IAssignmentToUserRepository), typeof(Assignmen
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddSignalR();
 
 builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("all", builder =>
+    options.AddPolicy("AllowSpecificOrigin", builder =>
     {
-        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        builder.WithOrigins("http://localhost:63343", "https://nirvana-dev.vercel.app")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 // Add HttpContext to interact with current request
@@ -161,19 +182,21 @@ app.UseSwagger();
 app.UseSwaggerUI();
 if (app.Environment.IsDevelopment())
 {
-    
     // Show more detailed errors in development
-    IdentityModelEventSource.ShowPII = true; 
+    // IdentityModelEventSource.ShowPII = true; 
 }
 
 app.UseHttpsRedirection();
 // Use "all" CORS policy, specified above
-app.UseCors("all");
+// app.UseCors("all");
+app.UseCors("AllowSpecificOrigin");
+app.UseWebSockets();
 // Use authentication and authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<NotificationHub>("api/v1/notificationHub");
 
 app.Run();
 

@@ -7,6 +7,7 @@ using Api.Application.Features.AssignmentToUser.Queries.GetAllByDate;
 using Api.Application.Features.AssignmentToUser.Queries.GetAllByUserEmail;
 using Api.Application.Features.AssignmentToUser.Queries.GetAllOwn;
 using Api.Application.Features.AssignmentToUser.Queries.GetAllOwnByDate;
+using Api.Application.Features.AssignmentToUser.Queries.GetById;
 using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -58,6 +59,7 @@ public class AssignmentsToUsersController : ControllerBase
     
     /// <remarks>
     /// Allowed roles: Manager
+    /// <para>When "id" in query is provided, than returns one assignment to user found by id</para>
     /// <para>When "email" in query is provided, than returns all assignments to users found by user's email</para>
     /// <para>When "email", "month" and "year" in query are provided, than returns all assignments to users found by user's email and filtered by date</para>
     /// <para>Otherwise PAGINATION DATA must be provided. Returns all paginated assignments to users</para>
@@ -97,5 +99,15 @@ public class AssignmentsToUsersController : ControllerBase
             return Ok(await _mediator.Send(new GetAllOwnAssignmentsByDateQuery { Month = month.Value, Year = year.Value }));
         
         return Ok(await _mediator.Send(new GetAllOwnAssignmentsQuery()));
+    }
+    /// <remarks>
+    /// Allowed roles: Technician, Housemaid
+    /// <para>Gets all info about assignment (when it's assigned to same user)</para>
+    /// </remarks>
+    [HttpGet("infoById/{id}")]
+    [AuthorizeEnums(Roles.Technician, Roles.Housemaid)]
+    public async Task<ActionResult<Unit>> GetAllOwn([FromRoute] Guid id)
+    {
+        return Ok(await _mediator.Send(new GetAssignmentToUserByIdQuery { Id = id }));
     }
 }
