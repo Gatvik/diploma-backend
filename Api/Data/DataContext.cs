@@ -17,32 +17,6 @@ public class DataContext : IdentityDbContext<User, Role, Guid>
     {
         builder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
         
-        // builder.Entity<Assignment>()
-        //     .HasOne(a => a.Role)
-        //     .WithMany(r => r.Assignments) 
-        //     .HasForeignKey(a => a.RoleId)
-        //     .OnDelete(DeleteBehavior.Restrict);
-        //
-        // builder.Entity<UserRole>()
-        //     .HasOne(a => a.User)
-        //     .WithMany(a => a.UserRoles)
-        //     .HasForeignKey(a => a.UserId);
-        //
-        // builder.Entity<UserRole>()
-        //     .HasOne(a => a.Role)
-        //     .WithMany(a => a.UserRoles)
-        //     .HasForeignKey(a => a.RoleId);
-        //
-        // builder.Entity<Role>()
-        //     .HasMany(a => a.UserRoles)
-        //     .WithOne(a => a.Role)
-        //     .HasForeignKey(a => a.RoleId);
-        //
-        // builder.Entity<User>()
-        //     .HasMany(a => a.UserRoles)
-        //     .WithOne(a => a.User)
-        //     .HasForeignKey(a => a.UserId);
-        
         builder.Entity<AssignmentToUser>()
             .HasOne(atu => atu.Assignment)
             .WithMany(a => a.AssignmentsToUsers)
@@ -64,6 +38,11 @@ public class DataContext : IdentityDbContext<User, Role, Guid>
             .WithMany(u => u.ItemHistories)
             .HasForeignKey(atu => atu.ItemId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Item>()
+            .HasOne(e => e.ItemCategory)
+            .WithMany(e => e.Items)
+            .HasForeignKey(e => e.ItemCategoryId);
         
         base.OnModelCreating(builder);
     }
@@ -72,4 +51,5 @@ public class DataContext : IdentityDbContext<User, Role, Guid>
     public DbSet<AssignmentToUser> AssignmentsToUsers { get; set; }
     public DbSet<Item> Items { get; set; }
     public DbSet<ItemHistory> ItemsHistories { get; set; }
+    public DbSet<ItemCategory> ItemCategories { get; set; }
 }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241129102421_Initial")]
+    [Migration("20250221153202_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -165,7 +165,7 @@ namespace Api.Data.Migrations
                         {
                             Id = new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "113c24c9-ca47-4629-8647-08e2116acf9e",
+                            ConcurrencyStamp = "877f76d4-0bb8-4187-be5c-947f979fa7aa",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -173,12 +173,88 @@ namespace Api.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENvzJHYBBdbNmvOCSvIc5+QyPY20WwAIFN15CRE4MkTMyZi63QaK33ziN8pUoz63bQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
                             Sex = "male",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("a9aebd65-e077-4d28-bb62-314428739789"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "bb5e7037-d7a4-4568-83ef-7a4ea6439b23",
+                            Email = "manager@localhost.com",
+                            EmailConfirmed = true,
+                            FirstName = "Manager",
+                            LastName = "Manager",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MANAGER@LOCALHOST.COM",
+                            NormalizedUserName = "MANAGER@LOCALHOST.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
+                            Sex = "male",
+                            TwoFactorEnabled = false,
+                            UserName = "manager@localhost.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("181eae58-202d-4757-86e2-578df1743d6c"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "11eabeea-f299-4245-b84d-c9d510c8ee8a",
+                            Email = "inventorymanager@localhost.com",
+                            EmailConfirmed = true,
+                            FirstName = "InventoryManager",
+                            LastName = "InventoryManager",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "INVENTORYMANAGER@LOCALHOST.COM",
+                            NormalizedUserName = "INVENTORYMANAGER@LOCALHOST.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
+                            Sex = "male",
+                            TwoFactorEnabled = false,
+                            UserName = "inventorymanager@localhost.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("d525eef7-5569-4b54-8b6d-2f796bc9ba9a"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e09e0cdb-76f2-4d1f-8e4b-ce915289b352",
+                            Email = "housemaid@localhost.com",
+                            EmailConfirmed = true,
+                            FirstName = "Housemaid",
+                            LastName = "Housemaid",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "HOUSEMAID@LOCALHOST.COM",
+                            NormalizedUserName = "HOUSEMAID@LOCALHOST.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
+                            Sex = "female",
+                            TwoFactorEnabled = false,
+                            UserName = "housemaid@localhost.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("217d332c-ef08-4f06-86b3-68df9eb48e73"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "2497c9e4-3d99-4b3f-a1da-ad50ac83d707",
+                            Email = "technician@localhost.com",
+                            EmailConfirmed = true,
+                            FirstName = "Technician",
+                            LastName = "Technician",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "TECHNICIAN@LOCALHOST.COM",
+                            NormalizedUserName = "TECHNICIAN@LOCALHOST.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6",
+                            Sex = "male",
+                            TwoFactorEnabled = false,
+                            UserName = "technician@localhost.com"
                         });
                 });
 
@@ -256,6 +332,9 @@ namespace Api.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("ItemCategoryId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("MinimumStockQuantity")
                         .HasColumnType("integer");
 
@@ -268,12 +347,15 @@ namespace Api.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ItemCategoryId");
+
                     b.ToTable("Items");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("8da704f4-af4d-4e1a-b151-74f042572600"),
+                            ItemCategoryId = new Guid("8da704f4-af4d-4e1a-b151-74f042572600"),
                             MinimumStockQuantity = 10,
                             Name = "Bedding set",
                             Quantity = 10
@@ -281,6 +363,7 @@ namespace Api.Data.Migrations
                         new
                         {
                             Id = new Guid("b702a464-7170-4a7a-b6b7-4ecedda97792"),
+                            ItemCategoryId = new Guid("db8c54ca-7da5-4e51-9490-861e44c86079"),
                             MinimumStockQuantity = 30,
                             Name = "Soap",
                             Quantity = 30
@@ -288,6 +371,7 @@ namespace Api.Data.Migrations
                         new
                         {
                             Id = new Guid("75de4f70-0237-4df5-846f-6e825f946f87"),
+                            ItemCategoryId = new Guid("37be3767-b73f-4abd-94db-e47a719e7dd4"),
                             MinimumStockQuantity = 500,
                             Name = "Nail",
                             Quantity = 500
@@ -295,9 +379,42 @@ namespace Api.Data.Migrations
                         new
                         {
                             Id = new Guid("674c73fc-2a7b-40ba-af56-d6a8a486cb3e"),
+                            ItemCategoryId = new Guid("37be3767-b73f-4abd-94db-e47a719e7dd4"),
                             MinimumStockQuantity = 80,
                             Name = "Light bulb",
                             Quantity = 80
+                        });
+                });
+
+            modelBuilder.Entity("Api.Domain.ItemCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ItemCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("8da704f4-af4d-4e1a-b151-74f042572600"),
+                            Name = "Bed"
+                        },
+                        new
+                        {
+                            Id = new Guid("db8c54ca-7da5-4e51-9490-861e44c86079"),
+                            Name = "Bathroom"
+                        },
+                        new
+                        {
+                            Id = new Guid("37be3767-b73f-4abd-94db-e47a719e7dd4"),
+                            Name = "Repair"
                         });
                 });
 
@@ -420,6 +537,26 @@ namespace Api.Data.Migrations
                         {
                             UserId = new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"),
                             RoleId = new Guid("cbc43a8e-f7bb-4445-baaf-1add431ffbbf")
+                        },
+                        new
+                        {
+                            UserId = new Guid("a9aebd65-e077-4d28-bb62-314428739789"),
+                            RoleId = new Guid("cac43a6e-f7bb-4448-baaf-1add431ccbbf")
+                        },
+                        new
+                        {
+                            UserId = new Guid("181eae58-202d-4757-86e2-578df1743d6c"),
+                            RoleId = new Guid("36f579e8-2f52-473f-91f2-550331d81d04")
+                        },
+                        new
+                        {
+                            UserId = new Guid("d525eef7-5569-4b54-8b6d-2f796bc9ba9a"),
+                            RoleId = new Guid("9beb8da7-4160-4db7-9982-05604a4e51d5")
+                        },
+                        new
+                        {
+                            UserId = new Guid("217d332c-ef08-4f06-86b3-68df9eb48e73"),
+                            RoleId = new Guid("a0f845d1-2680-459d-981a-d40b176c5ca8")
                         });
                 });
 
@@ -470,6 +607,17 @@ namespace Api.Data.Migrations
                     b.Navigation("Assignment");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Api.Domain.Item", b =>
+                {
+                    b.HasOne("Api.Domain.ItemCategory", "ItemCategory")
+                        .WithMany("Items")
+                        .HasForeignKey("ItemCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ItemCategory");
                 });
 
             modelBuilder.Entity("Api.Domain.ItemHistory", b =>
@@ -561,6 +709,11 @@ namespace Api.Data.Migrations
             modelBuilder.Entity("Api.Domain.Item", b =>
                 {
                     b.Navigation("ItemHistories");
+                });
+
+            modelBuilder.Entity("Api.Domain.ItemCategory", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

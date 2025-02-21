@@ -7,6 +7,7 @@ using Api.Application.Features.Item.Commands.Modify;
 using Api.Application.Features.Item.Commands.Order;
 using Api.Application.Features.Item.Commands.Update;
 using Api.Application.Features.Item.Queries.GetAll;
+using Api.Application.Features.Item.Queries.GetAllByCategory;
 using Api.Application.Features.Item.Queries.GetByName;
 using Api.Application.Features.Item.Queries.GetLackingItems;
 using Api.Application.Features.Item.Shared;
@@ -82,10 +83,17 @@ public class ItemsController : ControllerBase
     /// </remarks>
     [HttpGet]
     public async Task<ActionResult<List<ItemDto>>> Get([FromQuery] string? name, 
+        [FromQuery] Guid? itemCategoryId,
         [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
     {
         if(name is not null)
             return Ok(await _mediator.Send(new GetItemByNameQuery { ItemName = name }));
+        if(itemCategoryId is not null)
+            return Ok(await _mediator.Send(new GetAllItemsByCategoryQuery { 
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                CategoryId = itemCategoryId.Value
+            }));
         
         return Ok(await _mediator.Send(new GetAllItemsQuery
         {

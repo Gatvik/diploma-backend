@@ -19,7 +19,7 @@ public class GetItemByNameQueryHandler : IRequestHandler<GetItemByNameQuery, Ite
     
     public async Task<ItemDto> Handle(GetItemByNameQuery request, CancellationToken cancellationToken)
     {
-        var item = await _itemRepository.GetSingleByPredicateAsync(i => i.Name == request.ItemName);
+        var item = await _itemRepository.GetSingleByPredicateAsync(i => i.Name == request.ItemName, includes: i => i.ItemCategory);
 
         if (item is null)
             throw new NotFoundException();

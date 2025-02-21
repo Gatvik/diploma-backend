@@ -20,6 +20,7 @@ public class GetAllItemsQueryHandler : IRequestHandler<GetAllItemsQuery, GetAllI
     public async Task<GetAllItemsQueryResponse> Handle(GetAllItemsQuery request, CancellationToken cancellationToken)
     {
         var items = await _itemRepository.GetAllAsync(pageNumber: request.PageNumber, pageSize: request.PageSize, 
+            includes: i => i.ItemCategory,
             orderBy: x => x.Name);
 
         if (items.Count <= 0)

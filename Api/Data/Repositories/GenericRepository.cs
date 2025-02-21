@@ -14,9 +14,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         Context = context;
     }
 
-    public int Count()
+    public int Count(Expression<Func<T, bool>>? predicate = null)
     {
         IQueryable<T> set = Context.Set<T>().AsNoTracking();
+        if (predicate is not null)
+            set = set.Where(predicate);
 
         return set.Count();
     }

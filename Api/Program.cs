@@ -86,6 +86,7 @@ builder.Services.AddScoped(typeof(IItemRepository), typeof(ItemRepository));
 builder.Services.AddScoped(typeof(IItemHistoryRepository), typeof(ItemHistoryRepository));
 builder.Services.AddScoped(typeof(IAssignmentRepository), typeof(AssignmentRepository));
 builder.Services.AddScoped(typeof(IAssignmentToUserRepository), typeof(AssignmentToUserRepository));
+builder.Services.AddScoped(typeof(IItemCategoryRepository), typeof(ItemCategoryRepository));
 
 #endregion
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());

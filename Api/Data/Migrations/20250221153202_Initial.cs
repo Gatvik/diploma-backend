@@ -57,17 +57,15 @@ namespace Api.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Items",
+                name: "ItemCategories",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    MinimumStockQuantity = table.Column<int>(type: "integer", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.PrimaryKey("PK_ItemCategories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,29 +194,22 @@ namespace Api.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemsHistories",
+                name: "Items",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Value = table.Column<int>(type: "integer", nullable: false),
-                    PerformedAction = table.Column<string>(type: "text", nullable: false),
-                    DateOfAction = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ItemId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    ItemCategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    MinimumStockQuantity = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemsHistories", x => x.Id);
+                    table.PrimaryKey("PK_Items", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ItemsHistories_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_ItemsHistories_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "Items",
+                        name: "FK_Items_ItemCategories_ItemCategoryId",
+                        column: x => x.ItemCategoryId,
+                        principalTable: "ItemCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -252,6 +243,34 @@ namespace Api.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ItemsHistories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Value = table.Column<int>(type: "integer", nullable: false),
+                    PerformedAction = table.Column<string>(type: "text", nullable: false),
+                    DateOfAction = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ItemId = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemsHistories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemsHistories_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_ItemsHistories_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -267,23 +286,36 @@ namespace Api.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Sex", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"), 0, "113c24c9-ca47-4629-8647-08e2116acf9e", "admin@localhost.com", true, "Admin", "Admin", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAENvzJHYBBdbNmvOCSvIc5+QyPY20WwAIFN15CRE4MkTMyZi63QaK33ziN8pUoz63bQ==", null, false, "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6", "male", false, "admin@localhost.com" });
-
-            migrationBuilder.InsertData(
-                table: "Items",
-                columns: new[] { "Id", "MinimumStockQuantity", "Name", "Quantity" },
                 values: new object[,]
                 {
-                    { new Guid("674c73fc-2a7b-40ba-af56-d6a8a486cb3e"), 80, "Light bulb", 80 },
-                    { new Guid("75de4f70-0237-4df5-846f-6e825f946f87"), 500, "Nail", 500 },
-                    { new Guid("8da704f4-af4d-4e1a-b151-74f042572600"), 10, "Bedding set", 10 },
-                    { new Guid("b702a464-7170-4a7a-b6b7-4ecedda97792"), 30, "Soap", 30 }
+                    { new Guid("181eae58-202d-4757-86e2-578df1743d6c"), 0, "11eabeea-f299-4245-b84d-c9d510c8ee8a", "inventorymanager@localhost.com", true, "InventoryManager", "InventoryManager", false, null, "INVENTORYMANAGER@LOCALHOST.COM", "INVENTORYMANAGER@LOCALHOST.COM", "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==", null, false, "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6", "male", false, "inventorymanager@localhost.com" },
+                    { new Guid("217d332c-ef08-4f06-86b3-68df9eb48e73"), 0, "2497c9e4-3d99-4b3f-a1da-ad50ac83d707", "technician@localhost.com", true, "Technician", "Technician", false, null, "TECHNICIAN@LOCALHOST.COM", "TECHNICIAN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==", null, false, "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6", "male", false, "technician@localhost.com" },
+                    { new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"), 0, "877f76d4-0bb8-4187-be5c-947f979fa7aa", "admin@localhost.com", true, "Admin", "Admin", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==", null, false, "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6", "male", false, "admin@localhost.com" },
+                    { new Guid("a9aebd65-e077-4d28-bb62-314428739789"), 0, "bb5e7037-d7a4-4568-83ef-7a4ea6439b23", "manager@localhost.com", true, "Manager", "Manager", false, null, "MANAGER@LOCALHOST.COM", "MANAGER@LOCALHOST.COM", "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==", null, false, "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6", "male", false, "manager@localhost.com" },
+                    { new Guid("d525eef7-5569-4b54-8b6d-2f796bc9ba9a"), 0, "e09e0cdb-76f2-4d1f-8e4b-ce915289b352", "housemaid@localhost.com", true, "Housemaid", "Housemaid", false, null, "HOUSEMAID@LOCALHOST.COM", "HOUSEMAID@LOCALHOST.COM", "AQAAAAIAAYagAAAAEOBzvzQitS3oeUfs6onaRBwN0W7XKGkp9g7eeqAh2OV1pHsGL8fXUONirpVDLiw80w==", null, false, "K2SW2BTS4I5GN4WZYXW3ACQYNRVHX4L6", "female", false, "housemaid@localhost.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ItemCategories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("37be3767-b73f-4abd-94db-e47a719e7dd4"), "Repair" },
+                    { new Guid("8da704f4-af4d-4e1a-b151-74f042572600"), "Bed" },
+                    { new Guid("db8c54ca-7da5-4e51-9490-861e44c86079"), "Bathroom" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { new Guid("cbc43a8e-f7bb-4445-baaf-1add431ffbbf"), new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9") });
+                values: new object[,]
+                {
+                    { new Guid("36f579e8-2f52-473f-91f2-550331d81d04"), new Guid("181eae58-202d-4757-86e2-578df1743d6c") },
+                    { new Guid("a0f845d1-2680-459d-981a-d40b176c5ca8"), new Guid("217d332c-ef08-4f06-86b3-68df9eb48e73") },
+                    { new Guid("cbc43a8e-f7bb-4445-baaf-1add431ffbbf"), new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9") },
+                    { new Guid("cac43a6e-f7bb-4448-baaf-1add431ccbbf"), new Guid("a9aebd65-e077-4d28-bb62-314428739789") },
+                    { new Guid("9beb8da7-4160-4db7-9982-05604a4e51d5"), new Guid("d525eef7-5569-4b54-8b6d-2f796bc9ba9a") }
+                });
 
             migrationBuilder.InsertData(
                 table: "Assignments",
@@ -292,6 +324,17 @@ namespace Api.Data.Migrations
                 {
                     { new Guid("58302ce8-d000-4301-b24b-52cd5ded95a2"), "Replace light bulb", new Guid("a0f845d1-2680-459d-981a-d40b176c5ca8") },
                     { new Guid("c8837679-cb17-41a3-93b0-c7d797a61a76"), "Clear room", new Guid("9beb8da7-4160-4db7-9982-05604a4e51d5") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Items",
+                columns: new[] { "Id", "ItemCategoryId", "MinimumStockQuantity", "Name", "Quantity" },
+                values: new object[,]
+                {
+                    { new Guid("674c73fc-2a7b-40ba-af56-d6a8a486cb3e"), new Guid("37be3767-b73f-4abd-94db-e47a719e7dd4"), 80, "Light bulb", 80 },
+                    { new Guid("75de4f70-0237-4df5-846f-6e825f946f87"), new Guid("37be3767-b73f-4abd-94db-e47a719e7dd4"), 500, "Nail", 500 },
+                    { new Guid("8da704f4-af4d-4e1a-b151-74f042572600"), new Guid("8da704f4-af4d-4e1a-b151-74f042572600"), 10, "Bedding set", 10 },
+                    { new Guid("b702a464-7170-4a7a-b6b7-4ecedda97792"), new Guid("db8c54ca-7da5-4e51-9490-861e44c86079"), 30, "Soap", 30 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -347,6 +390,11 @@ namespace Api.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Items_ItemCategoryId",
+                table: "Items",
+                column: "ItemCategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ItemsHistories_ItemId",
                 table: "ItemsHistories",
                 column: "ItemId");
@@ -392,6 +440,9 @@ namespace Api.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "ItemCategories");
         }
     }
 }

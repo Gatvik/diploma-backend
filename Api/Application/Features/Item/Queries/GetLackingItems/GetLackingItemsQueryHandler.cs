@@ -20,6 +20,7 @@ public class GetLackingItemsQueryHandler : IRequestHandler<GetLackingItemsQuery,
     public async Task<List<LackingItemDto>> Handle(GetLackingItemsQuery request, CancellationToken cancellationToken)
     {
         var items = await _itemRepository.GetAllByPredicateAsync(predicate: i => i.Quantity < i.MinimumStockQuantity,
+            includes: i => i.ItemCategory,
             orderBy: x => x.Name);
         if (items.Count == 0)
             throw new NotFoundException();

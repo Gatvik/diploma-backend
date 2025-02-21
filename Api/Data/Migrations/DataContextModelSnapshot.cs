@@ -162,7 +162,7 @@ namespace Api.Data.Migrations
                         {
                             Id = new Guid("8e445865-a24d-4543-a6c6-9443d048cdb9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e873506c-e94a-4559-8e7e-0e1c464b2abe",
+                            ConcurrencyStamp = "877f76d4-0bb8-4187-be5c-947f979fa7aa",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -181,7 +181,7 @@ namespace Api.Data.Migrations
                         {
                             Id = new Guid("a9aebd65-e077-4d28-bb62-314428739789"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6f0bb5af-278b-46e5-8c3d-c4449c7b29f4",
+                            ConcurrencyStamp = "bb5e7037-d7a4-4568-83ef-7a4ea6439b23",
                             Email = "manager@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Manager",
@@ -200,7 +200,7 @@ namespace Api.Data.Migrations
                         {
                             Id = new Guid("181eae58-202d-4757-86e2-578df1743d6c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "443afa27-4559-4729-90fe-864d79113fef",
+                            ConcurrencyStamp = "11eabeea-f299-4245-b84d-c9d510c8ee8a",
                             Email = "inventorymanager@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "InventoryManager",
@@ -219,7 +219,7 @@ namespace Api.Data.Migrations
                         {
                             Id = new Guid("d525eef7-5569-4b54-8b6d-2f796bc9ba9a"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9388fdb0-f546-4589-929f-0eeefbfed1c3",
+                            ConcurrencyStamp = "e09e0cdb-76f2-4d1f-8e4b-ce915289b352",
                             Email = "housemaid@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Housemaid",
@@ -238,7 +238,7 @@ namespace Api.Data.Migrations
                         {
                             Id = new Guid("217d332c-ef08-4f06-86b3-68df9eb48e73"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "47182375-ef69-4b12-be8d-09dacae70737",
+                            ConcurrencyStamp = "2497c9e4-3d99-4b3f-a1da-ad50ac83d707",
                             Email = "technician@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Technician",
@@ -329,6 +329,9 @@ namespace Api.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("ItemCategoryId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("MinimumStockQuantity")
                         .HasColumnType("integer");
 
@@ -341,12 +344,15 @@ namespace Api.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ItemCategoryId");
+
                     b.ToTable("Items");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("8da704f4-af4d-4e1a-b151-74f042572600"),
+                            ItemCategoryId = new Guid("8da704f4-af4d-4e1a-b151-74f042572600"),
                             MinimumStockQuantity = 10,
                             Name = "Bedding set",
                             Quantity = 10
@@ -354,6 +360,7 @@ namespace Api.Data.Migrations
                         new
                         {
                             Id = new Guid("b702a464-7170-4a7a-b6b7-4ecedda97792"),
+                            ItemCategoryId = new Guid("db8c54ca-7da5-4e51-9490-861e44c86079"),
                             MinimumStockQuantity = 30,
                             Name = "Soap",
                             Quantity = 30
@@ -361,6 +368,7 @@ namespace Api.Data.Migrations
                         new
                         {
                             Id = new Guid("75de4f70-0237-4df5-846f-6e825f946f87"),
+                            ItemCategoryId = new Guid("37be3767-b73f-4abd-94db-e47a719e7dd4"),
                             MinimumStockQuantity = 500,
                             Name = "Nail",
                             Quantity = 500
@@ -368,9 +376,42 @@ namespace Api.Data.Migrations
                         new
                         {
                             Id = new Guid("674c73fc-2a7b-40ba-af56-d6a8a486cb3e"),
+                            ItemCategoryId = new Guid("37be3767-b73f-4abd-94db-e47a719e7dd4"),
                             MinimumStockQuantity = 80,
                             Name = "Light bulb",
                             Quantity = 80
+                        });
+                });
+
+            modelBuilder.Entity("Api.Domain.ItemCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ItemCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("8da704f4-af4d-4e1a-b151-74f042572600"),
+                            Name = "Bed"
+                        },
+                        new
+                        {
+                            Id = new Guid("db8c54ca-7da5-4e51-9490-861e44c86079"),
+                            Name = "Bathroom"
+                        },
+                        new
+                        {
+                            Id = new Guid("37be3767-b73f-4abd-94db-e47a719e7dd4"),
+                            Name = "Repair"
                         });
                 });
 
@@ -565,6 +606,17 @@ namespace Api.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Api.Domain.Item", b =>
+                {
+                    b.HasOne("Api.Domain.ItemCategory", "ItemCategory")
+                        .WithMany("Items")
+                        .HasForeignKey("ItemCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ItemCategory");
+                });
+
             modelBuilder.Entity("Api.Domain.ItemHistory", b =>
                 {
                     b.HasOne("Api.Domain.Item", "Item")
@@ -654,6 +706,11 @@ namespace Api.Data.Migrations
             modelBuilder.Entity("Api.Domain.Item", b =>
                 {
                     b.Navigation("ItemHistories");
+                });
+
+            modelBuilder.Entity("Api.Domain.ItemCategory", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
