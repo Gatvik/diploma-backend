@@ -36,7 +36,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddIdentity<User, Role>(options =>
 {
-    options.User.RequireUniqueEmail = true;
+    options.User.RequireUniqueEmail = false;
 }).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
 
 
