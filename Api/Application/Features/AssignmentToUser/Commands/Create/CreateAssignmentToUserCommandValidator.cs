@@ -52,10 +52,18 @@ public class CreateAssignmentToUserCommandValidator : AbstractValidator<CreateAs
             })
             .CustomAsync(async (atu, context, cancellationToken) =>
             {
-                bool isTimeCorrect = IsTimeCorrect(atu.StartTime, atu.EndTime);
-                if (!isTimeCorrect)
+                bool isBusinessHours = IsBusinessHours(atu.StartTime, atu.EndTime);
+                if (!isBusinessHours)
                 {
                     context.AddFailure("Time", "A task can only affect one day and can be scheduled from 8:00 to 22:00");
+                }
+            })
+            .CustomAsync(async (atu, context, cancellationToken) =>
+            {
+                bool isTimeInPast = IsTimeInPast(atu.StartTime, atu.EndTime);
+                if (isTimeInPast)
+                {
+                    context.AddFailure("Time", "A time is in past");
                 }
             })
             .CustomAsync(async (atu, context, cancellationToken) =>
@@ -68,12 +76,18 @@ public class CreateAssignmentToUserCommandValidator : AbstractValidator<CreateAs
             });
     }
 
-    private bool IsStartTimeGreaterThenEndTime(DateTime startTime, DateTime endTime)
+    private bool IsTimeInPast(DateTime startTime, DateTime endTime)
     {
-        return startTime > endTime || startTime == endTime;
+        var now = DateTime.Now;
+        return startTime <= now || endTime <= now;
     }
 
-    private bool IsTimeCorrect(DateTime startTime, DateTime endTime)
+    private bool IsStartTimeGreaterThenEndTime(DateTime startTime, DateTime endTime)
+    {
+        return startTime > endTime;
+    }
+
+    private bool IsBusinessHours(DateTime startTime, DateTime endTime)
     {
         bool isTheSameDay = startTime.DayOfWeek == endTime.DayOfWeek;
         bool isStartTimeCorrect = startTime.TimeOfDay >= new TimeSpan(8, 0, 0);
