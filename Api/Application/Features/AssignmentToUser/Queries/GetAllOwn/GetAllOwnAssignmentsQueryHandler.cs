@@ -1,4 +1,5 @@
-﻿using Api.Application.Contracts.Identity;
+﻿using System.Linq.Expressions;
+using Api.Application.Contracts.Identity;
 using Api.Application.Contracts.Persistence;
 using Api.Application.Exceptions;
 using Api.Application.Features.AssignmentToUser.Common;
@@ -33,7 +34,7 @@ public class GetAllOwnAssignmentsQueryHandler : IRequestHandler<GetAllOwnAssignm
 
         var userAssignments = await _assignmentToUserRepository.GetAllByPredicateAsync(
             predicate: a => a.UserId == user.Id, 
-            includes: x => x.Assignment);
+            includes: new Expression<Func<Domain.AssignmentToUser, object>>[]{incl => incl.Assignment, incl => incl.AssignmentToUserStatus});
 
         return _mapper.Map<List<AssignmentToUserDto>>(userAssignments);
     }

@@ -1,4 +1,5 @@
-﻿using Api.Application.Contracts.Persistence;
+﻿using System.Linq.Expressions;
+using Api.Application.Contracts.Persistence;
 using Api.Application.Exceptions;
 using Api.Application.Features.AssignmentToUser.Common;
 using AutoMapper;
@@ -23,8 +24,9 @@ public class GetAllAssignmentsByDateAndEmailQueryHandler : IRequestHandler<GetAl
             .GetAllByPredicateAsync(predicate: p => 
                     p.User.Email == request.Email 
                     && p.StartTime.Month == request.Month 
-                    && p.StartTime.Year == request.Year,
-                includes: incl => incl.Assignment.Role);
+                    && p.StartTime.Year == request.Year
+                    && p.StartTime.Day == request.Day,
+                includes: [incl => incl.Assignment.Role, incl => incl.AssignmentToUserStatus]);
         
         if (assignments.Count <= 0)
             throw new NotFoundException();

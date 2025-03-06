@@ -23,7 +23,7 @@ public class GetAllAssignmentsToUserQueryHandler : IRequestHandler<GetAllAssignm
         var assignments = await _assignmentToUserRepository.GetAllAsync(
             orderBy: x => x.StartTime,
             pageNumber: request.PageNumber, pageSize: request.PageSize, 
-            includes: new Expression<Func<Domain.AssignmentToUser, object>>[]{ x => x.Assignment.Role, x => x.User });
+            includes: new Expression<Func<Domain.AssignmentToUser, object>>[]{ x => x.Assignment.Role, x => x.User, x => x.AssignmentToUserStatus });
         
         if (assignments.Count == 0)
             throw new NotFoundException();

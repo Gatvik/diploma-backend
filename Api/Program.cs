@@ -81,17 +81,18 @@ builder.Services.AddAuthentication(options =>
 #region Repositories
 
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IItemRepository), typeof(ItemRepository));
 builder.Services.AddScoped(typeof(IItemHistoryRepository), typeof(ItemHistoryRepository));
 builder.Services.AddScoped(typeof(IAssignmentRepository), typeof(AssignmentRepository));
 builder.Services.AddScoped(typeof(IAssignmentToUserRepository), typeof(AssignmentToUserRepository));
 builder.Services.AddScoped(typeof(IItemCategoryRepository), typeof(ItemCategoryRepository));
+builder.Services.AddScoped(typeof(IAssignmentToUserStatusRepository), typeof(AssignmentToUserStatusRepository));
 
 #endregion
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
-builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddSignalR();
 
 builder.Services.AddControllers();

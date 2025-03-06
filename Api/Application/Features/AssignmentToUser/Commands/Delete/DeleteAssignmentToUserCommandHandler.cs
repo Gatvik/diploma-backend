@@ -15,12 +15,12 @@ public class DeleteAssignmentToUserCommandHandler : IRequestHandler<DeleteAssign
     
     public async Task<Unit> Handle(DeleteAssignmentToUserCommand request, CancellationToken cancellationToken)
     {
-        var assignment = await _assignmentToUserRepository.GetByIdAsync(request.Id);
+        var assignment = await _assignmentToUserRepository.GetByIdAsync(request.Id, includes: atu => atu.AssignmentToUserStatus);
         if (assignment is null)
             throw new NotFoundException("Assignment not found");
 
-        if (assignment.IsCompleted)
-            throw new BadRequestException("Completed assignment can not be deleted");
+        if (assignment.AssignmentToUserStatus.Name is "Approved" or "Rejected")
+            throw new BadRequestException("Approved or rejected assignment can not be deleted");
 
         await _assignmentToUserRepository.DeleteAsync(assignment);
 

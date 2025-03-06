@@ -52,4 +52,5 @@ public class DataContext : IdentityDbContext<User, Role, Guid>
     public DbSet<Item> Items { get; set; }
     public DbSet<ItemHistory> ItemsHistories { get; set; }
     public DbSet<ItemCategory> ItemCategories { get; set; }
+    public DbSet<AssignmentToUserStatus> AssignmentToUserStatuses { get; set; }
 }

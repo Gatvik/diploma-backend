@@ -5,10 +5,12 @@ namespace Api.Domain;
 
 public class AssignmentToUser : BaseEntity
 {
-    public bool IsCompleted { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public string Details { get; set; }
+
+    public Guid AssignmentToUserStatusId { get; set; }
+    public AssignmentToUserStatus AssignmentToUserStatus { get; set; }
     
     public Guid AssignmentId { get; set; }
     public Assignment Assignment { get; set; }

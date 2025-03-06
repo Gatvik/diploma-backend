@@ -21,7 +21,7 @@ public class GetAllAssignmentsByUserEmailQueryHandler : IRequestHandler<GetAllAs
     {
         var assignments = await _assignmentToUserRepository
             .GetAllByPredicateAsync(predicate: p => p.User.Email == request.Email, 
-            includes: incl => incl.Assignment.Role);
+            includes: [incl => incl.Assignment.Role, incl => incl.AssignmentToUserStatus]);
         
         if (assignments.Count <= 0)
             throw new NotFoundException();

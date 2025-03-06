@@ -1,7 +1,8 @@
 ﻿using Api.Application.Attributes;
+using Api.Application.Features.AssignmentToUser.Commands.ChangeStatus;
+using Api.Application.Features.AssignmentToUser.Commands.Check;
 using Api.Application.Features.AssignmentToUser.Commands.Create;
 using Api.Application.Features.AssignmentToUser.Commands.Delete;
-using Api.Application.Features.AssignmentToUser.Commands.MarkAsCompleted;
 using Api.Application.Features.AssignmentToUser.Queries.GetAll;
 using Api.Application.Features.AssignmentToUser.Queries.GetAllByDate;
 using Api.Application.Features.AssignmentToUser.Queries.GetAllByUserEmail;
@@ -39,10 +40,22 @@ public class AssignmentsToUsersController : ControllerBase
     
     /// <remarks>
     /// Allowed roles: Housemaid, Technician
+    /// <para>Allow changes: Not Accepted -> In Progress -> Completed (ONLY IN THAT WAY)</para>
     /// </remarks>
-    [HttpPut("markAsCompleted")]
+    [HttpPut("changeStatus")]
     [AuthorizeEnums(Roles.Housemaid, Roles.Technician)]
-    public async Task<ActionResult<Unit>> MarkAsCompleted(MarkAssignmentAsCompletedQuery request)
+    public async Task<ActionResult<Unit>> ChangeStatus(ChangeAssignmentToUserCommand request)
+    {
+        return Ok(await _mediator.Send(request));
+    }
+    
+    /// <remarks>
+    /// Allowed roles: Manager
+    /// <para>Allow changes: Completed -> Rejected || Approved (ONLY IN THAT WAY)</para>
+    /// </remarks>
+    [HttpPut("check")]
+    [AuthorizeEnums(Roles.Manager)]
+    public async Task<ActionResult<Unit>> CheckAssignment(CheckAssignmentToUserCommand request)
     {
         return Ok(await _mediator.Send(request));
     }
@@ -61,20 +74,20 @@ public class AssignmentsToUsersController : ControllerBase
     /// Allowed roles: Manager
     /// <para>When "id" in query is provided, than returns one assignment to user found by id</para>
     /// <para>When "email" in query is provided, than returns all assignments to users found by user's email</para>
-    /// <para>When "email", "month" and "year" in query are provided, than returns all assignments to users found by user's email and filtered by date</para>
+    /// <para>When "email", "month", "year", "day" in query are provided, than returns all assignments to users found by user's email and filtered by date</para>
     /// <para>Otherwise PAGINATION DATA must be provided. Returns all paginated assignments to users</para>
     /// <para>Default page size - 20, default page number - 1</para>
     /// </remarks>
     [HttpGet]
     [AuthorizeEnums(Roles.Manager)]
     public async Task<ActionResult<Unit>> GetAll([FromQuery] string? email, 
-        [FromQuery] int? month, [FromQuery] int? year,
+        [FromQuery] int? month, [FromQuery] int? year, [FromQuery] int? day,
         [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 20)
     {
         if (email is not null)
         {
-            if (month is not null && year is not null)
-                return Ok(await _mediator.Send(new GetAllAssignmentsByDateAndEmailQuery {Month = month.Value, Year = year.Value, Email = email}));
+            if (month is not null && year is not null && day is not null)
+                return Ok(await _mediator.Send(new GetAllAssignmentsByDateAndEmailQuery {Month = month.Value, Year = year.Value, Day = day.Value, Email = email}));
         
             return Ok(await _mediator.Send(new GetAllAssignmentsByUserEmailQuery {Email = email}));
         }

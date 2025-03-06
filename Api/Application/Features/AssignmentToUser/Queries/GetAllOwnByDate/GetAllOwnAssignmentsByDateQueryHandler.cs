@@ -28,7 +28,7 @@ public class GetAllOwnAssignmentsByDateQueryHandler : IRequestHandler<GetAllOwnA
                     p.User.Id == Guid.Parse(_userService.UserId) 
                     && p.StartTime.Month == request.Month 
                     && p.StartTime.Year == request.Year,
-                includes: incl => incl.Assignment.Role);
+                includes: [incl => incl.Assignment, incl => incl.AssignmentToUserStatus]);
 
         if (assignments.Count == 0)
             throw new NotFoundException("No assignments");

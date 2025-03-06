@@ -16,16 +16,19 @@ public class CreateAssignmentToUserCommandHandler : IRequestHandler<CreateAssign
     private readonly IAssignmentRepository _assignmentRepository;
     private readonly IMapper _mapper;
     private readonly UserManager<Data.Models.User> _userManager;
+    private readonly IAssignmentToUserStatusRepository _assignmentToUserStatusRepository;
     private readonly IHubContext<NotificationHub> _hubContext;
 
     public CreateAssignmentToUserCommandHandler(IAssignmentToUserRepository assignmentToUserRepository, 
         IAssignmentRepository assignmentRepository, IMapper mapper, UserManager<Data.Models.User> userManager, 
+        IAssignmentToUserStatusRepository assignmentToUserStatusRepository,
         IHubContext<NotificationHub> hubContext)
     {
         _assignmentToUserRepository = assignmentToUserRepository;
         _assignmentRepository = assignmentRepository;
         _mapper = mapper;
         _userManager = userManager;
+        _assignmentToUserStatusRepository = assignmentToUserStatusRepository;
         _hubContext = hubContext;
     }
     
@@ -37,6 +40,12 @@ public class CreateAssignmentToUserCommandHandler : IRequestHandler<CreateAssign
             throw new BadRequestException(validationResult);
 
         var assignmentToUser = _mapper.Map<Domain.AssignmentToUser>(request);
+        var notAcceptedStatus =
+            await _assignmentToUserStatusRepository.GetSingleByPredicateAsync(atus => atus.Name == "Not Accepted");
+        if (notAcceptedStatus is null)
+            throw new Exception("Something with statuses");
+
+        assignmentToUser.AssignmentToUserStatusId = notAcceptedStatus.Id;
         await _assignmentToUserRepository.CreateAsync(assignmentToUser);
         
         await _hubContext.Clients.Group(request.UserId.ToString()).SendAsync("ReceiveNotification", new {assignmentToUser.Id, assignmentToUser.StartTime, assignmentToUser.EndTime});
