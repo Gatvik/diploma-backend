@@ -5,6 +5,7 @@ using Api.Application.Features.Assignment.Commands.Delete;
 using Api.Application.Features.Assignment.Commands.Update;
 using Api.Application.Features.Assignment.Common;
 using Api.Application.Features.Assignment.Queries.GetAll;
+using Api.Application.Features.Assignment.Queries.GetByRoleId;
 using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -53,13 +54,24 @@ public class AssignmentsController : ControllerBase
     
     /// <remarks>
     /// Allowed roles: Manager
-    /// <para>PAGINATION DATA must be provided. Returns all paginated assignments to users</para>
+    /// <para>PAGINATION DATA can be provided. Returns all (paginated) assignments to users</para>
     /// </remarks>
     [HttpGet]
-    public async Task<ActionResult<List<AssignmentDto>>> GetAll(int pageSize, int pageNumber)
+    public async Task<ActionResult<List<AssignmentDto>>> GetAll(int? pageSize, int? pageNumber)
     {
         return Ok(await _mediator.Send(new GetAllAssignmentsQuery
         {
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        }));
+    }
+    
+    [HttpGet("byRole/{roleId:guid}")]
+    public async Task<ActionResult<List<AssignmentDto>>> GetAllByRole([FromRoute] Guid roleId, int? pageSize, int? pageNumber)
+    {
+        return Ok(await _mediator.Send(new GetAssignmentsByRoleIdQuery
+        {
+            RoleId = roleId,
             PageNumber = pageNumber,
             PageSize = pageSize
         }));

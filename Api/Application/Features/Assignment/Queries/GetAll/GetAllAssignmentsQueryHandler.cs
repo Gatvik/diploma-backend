@@ -19,9 +19,14 @@ public class GetAllAssignmentsQueryHandler : IRequestHandler<GetAllAssignmentsQu
     
     public async Task<GetAllAssignmentsQueryResponse> Handle(GetAllAssignmentsQuery request, CancellationToken cancellationToken)
     {
-        var assignments = await _assignmentRepository.GetAllAsync(
-            pageSize: request.PageSize, pageNumber: request.PageNumber, 
-            includes: a => a.Role);
+        IReadOnlyList<Domain.Assignment> assignments;
+        
+        if (request.PageNumber is null && request.PageSize is null)
+            assignments = await _assignmentRepository.GetAllAsync(includes: a => a.Role);
+        else 
+            assignments = await _assignmentRepository.GetAllAsync(
+                pageSize: request.PageSize, pageNumber: request.PageNumber, 
+                includes: a => a.Role);
 
         if (assignments.Count == 0)
             throw new NotFoundException("Assignments not found");
