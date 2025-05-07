@@ -24,7 +24,7 @@ public class GetAllItemHistoriesWithPaginationQueryHandler : IRequestHandler<Get
         var itemHistories = await _itemHistoryRepository.GetAllAsync(
             pageSize: request.PageSize, pageNumber: request.PageNumber,
             orderBy: r => r.DateOfAction, 
-            includes: new Expression<Func<Domain.ItemHistory, object>>[] { x => x.Item, x => x.User });
+            includes: new Expression<Func<Domain.ItemHistory, object>>[] { x => x.Item.ItemCategory, x => x.User });
 
         var response = new GetAllItemHistoriesWithPaginationQueryResponse
         {
