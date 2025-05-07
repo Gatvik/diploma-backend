@@ -1,4 +1,6 @@
-﻿using Api.Application.Features.ItemHistory.Common;
+﻿using Api.Application.Exceptions;
+using Api.Application.Features.ItemHistory.Common;
+using Api.Application.Features.ItemHistory.Queries.GetAllByMonth;
 using Api.Application.Features.ItemHistory.Queries.GetAllWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,8 +24,14 @@ public class ItemHistoriesController : ControllerBase
     /// <para>Allowed roles: any (except non-authorized)</para>
     /// </remarks>
     [HttpGet]
-    public async Task<ActionResult<List<ItemHistoryDto>>> GetAll(int pageNumber, int pageSize)
+    public async Task<ActionResult<List<ItemHistoryDto>>> GetAll(int? pageNumber, int? pageSize, int? month)
     {
-        return Ok(await _mediator.Send(new GetAllItemHistoriesWithPaginationQuery { PageNumber = pageNumber, PageSize = pageSize}));
+        if (pageNumber is not null && pageSize is not null)
+            return Ok(await _mediator.Send(
+                new GetAllItemHistoriesWithPaginationQuery { PageNumber = pageNumber.Value, PageSize = pageSize.Value}));
+        if (month is not null)
+            return Ok(await _mediator.Send(new GetAllItemHistoriesByMonthQuery { Month = month.Value }));
+
+        throw new BadRequestException("Either pageNumber, pageSize or month must be provided");
     }
 }
