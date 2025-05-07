@@ -1,7 +1,10 @@
-﻿using Api.Application.Exceptions;
+﻿using Api.Application.Attributes;
+using Api.Application.Exceptions;
 using Api.Application.Features.ItemHistory.Common;
 using Api.Application.Features.ItemHistory.Queries.GetAllByMonth;
 using Api.Application.Features.ItemHistory.Queries.GetAllWithPagination;
+using Api.Application.Features.ItemHistory.Queries.GetMostPopularItem;
+using Api.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,5 +36,15 @@ public class ItemHistoriesController : ControllerBase
             return Ok(await _mediator.Send(new GetAllItemHistoriesByMonthQuery { Month = month.Value }));
 
         throw new BadRequestException("Either pageNumber, pageSize or month must be provided");
+    }
+
+    /// <remarks>
+    /// <para>Allowed roles: InventoryManager (except non-authorized)</para>
+    /// </remarks>
+    [HttpGet("mostPopularItem")]
+    [AuthorizeEnums(Roles.InventoryManager)]
+    public async Task<ActionResult<List<ItemHistoryDto>>> GetMostPopularItem()
+    {
+        return Ok(await _mediator.Send(new GetMostPopularItemQuery()));
     }
 }

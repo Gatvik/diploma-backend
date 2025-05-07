@@ -7,13 +7,13 @@ namespace Api.Data.Repositories;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
-    protected readonly DataContext Context;
+    public DataContext Context { get; }
 
     public GenericRepository(DataContext context)
     {
         Context = context;
     }
-
+    
     public int Count(Expression<Func<T, bool>>? predicate = null)
     {
         IQueryable<T> set = Context.Set<T>().AsNoTracking();

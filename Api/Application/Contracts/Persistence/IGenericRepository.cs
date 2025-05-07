@@ -1,10 +1,12 @@
 ﻿using System.Linq.Expressions;
+using Api.Data;
 using Api.Domain.Common;
 
 namespace Api.Application.Contracts.Persistence;
 
 public interface IGenericRepository<T> where T : BaseEntity
 {
+    public DataContext Context { get; }
     int Count(Expression<Func<T, bool>>? predicate = null);
     Task<IReadOnlyList<T>> GetAllAsync(int? pageNumber = null, int? pageSize = null, 
         Expression<Func<T, object>>? orderBy = null, 
