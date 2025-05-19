@@ -101,7 +101,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", builder =>
     {
-        builder.WithOrigins("http://localhost:63342", "https://nirvana-dev.vercel.app", "http://localhost:4545", "https://nirvana-tau.vercel.app/")
+        builder.WithOrigins("http://localhost:63342", "https://nirvana-dev.vercel.app", "http://localhost:4545", "https://nirvana-tau.vercel.app")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
